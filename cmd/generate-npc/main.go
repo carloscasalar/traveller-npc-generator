@@ -9,9 +9,9 @@ import (
 
 func main() {
 	opts := readOptionsOrFail()
-	prompt("CitizenCategory: " + opts.CitizenCategory)
-	prompt("Experience: " + opts.Experience)
-	prompt("CrewRole: " + opts.CrewRole)
+	titleValue("CitizenCategory: ", opts.CitizenCategory)
+	titleValue("Experience: ", opts.Experience)
+	titleValue("CrewRole: ", opts.CrewRole)
 }
 
 func readOptionsOrFail() CommandOptions {
@@ -39,4 +39,8 @@ type CommandOptions struct {
 
 func prompt(value string) {
 	fmt.Println(ui.NewPromptRenderer(value).Render())
+}
+
+func titleValue(title, value string) {
+	fmt.Println(ui.NewTitleValueRenderer(title, value).Render())
 }
