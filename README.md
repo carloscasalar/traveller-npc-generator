@@ -19,16 +19,21 @@ Instead of randomly generating ability scores, this generator uses several stand
 
 According to the previous experience of the NPC, the generator will assign a number of skill points according to this table, "Average Skill Levels by Term":
 
-<table><caption>Average Skill Levels by Term</caption> <thead>
-<tr> <th rowspan="2">Experience</th><th rowspan="2">Terms</th> <th colspan="4">Number of Skills by Skill Level</th> </tr>
+<table><caption>Average Skill Levels by Experience</caption> 
+<thead>
+<tr> <th rowspan="2">Experience</th> <th colspan="4">Number of Skills by Skill Level</th> </tr>
 <tr> <th>3</th> <th>2</th> <th>1</th> <th>0</th> </tr>
-</thead> <tbody>
-<tr> <td>Recruit</td><td>0</td> <td>0</td> <td>0</td> <td>0</td> <td>4</td> </tr>
-<tr> <td>Rookie</td> <td>1</td> <td>0</td> <td>0</td> <td>2</td> <td>4</td> </tr>
-</tbody> <tbody>
-<tr> <td>Intermediate</td><td>2</td> <td>0</td> <td>1</td> <td>2</td> <td>4</td> </tr>
-<tr> <td>Regular</td><td>3</td> <td>0</td> <td>2</td> <td>2</td> <td>5</td> </tr>
-</tbody><tbody>
-<tr> <td>Veteran</td><td>4</td> <td>0</td> <td>3</td> <td>2</td> <td>5</td> </tr>
-<tr> <td>Elite</td><td>5</td> <td>1</td> <td>2</td> <td>3</td> <td>6</td> </tr>
-</tbody> </table>
+</thead> 
+<tbody>
+<tr> <td>Recruit</td> <td>0</td> <td>0</td> <td>0</td> <td>4</td> </tr>
+<tr> <td>Rookie</td> <td>0</td> <td>0</td> <td>2</td> <td>4</td> </tr>
+</tbody> 
+<tbody>
+<tr> <td>Intermediate</td> <td>0</td> <td>1</td> <td>2</td> <td>4</td> </tr>
+<tr> <td>Regular</td> <td>0</td> <td>2</td> <td>2</td> <td>5</td> </tr>
+</tbody>
+<tbody>
+<tr> <td>Veteran</td> <td>0</td> <td>3</td> <td>2</td> <td>5</td> </tr>
+<tr> <td>Elite</td> <td>1</td> <td>2</td> <td>3</td> <td>6</td> </tr>
+</tbody> 
+</table>

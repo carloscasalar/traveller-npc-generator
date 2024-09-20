@@ -27,6 +27,13 @@ func (r Role) RelevantSkills() []string {
 	return []string{}
 }
 
+func (r Role) Skills(experience Experience) []string {
+	if distribution, found := skillLevelDistributionByExperience[experience]; found {
+		return distribution.DistributeLevels(r.RelevantSkills())
+	}
+	return []string{}
+}
+
 var skillsByRole = map[Role][]string{
 	RolePilot: {
 		"Pilot (Spacecraft)", "Astrogation", "Sensors", "Gunnery", "Mechanic", "Communications",
