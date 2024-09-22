@@ -1,7 +1,5 @@
 package npc
 
-import "fmt"
-
 //go:generate enumer -type=Experience -output=experience_auto.go -trimprefix=Experience -transform=snake
 type Experience int
 
@@ -21,10 +19,19 @@ type levelDistribution struct {
 	numberOfSkillsLevel3 int
 }
 
-func (d levelDistribution) DistributeLevels(skills []string) []string {
+func (d levelDistribution) DistributeLevels(skills []skill) []string {
 	level3Skills, skills := pop(skills, d.numberOfSkillsLevel3)
 	level2Skills, skills := pop(skills, d.numberOfSkillsLevel2)
 	level1Skills, skills := pop(skills, d.numberOfSkillsLevel1)
+
+	skills = removeSpecializations(skills)
+
+	skills = make(maxLevelBySkillName).
+		SetSkillsLevel(level3Skills, 3).
+		SetSkillsLevel(level2Skills, 2).
+		SetSkillsLevel(level1Skills, 1).
+		RemoveAnySkillWithLevelFrom(skills)
+
 	level0Skills, skills := pop(skills, d.numberOfSkillsLevel0)
 
 	skillsWithLevels := make([]string, 0, len(level0Skills)+len(level1Skills)+len(level2Skills)+len(level3Skills))
@@ -33,6 +40,42 @@ func (d levelDistribution) DistributeLevels(skills []string) []string {
 	skillsWithLevels = append(skillsWithLevels, appendLevel(level1Skills, 1)...)
 	skillsWithLevels = append(skillsWithLevels, appendLevel(level0Skills, 0)...)
 	return skillsWithLevels
+}
+
+func removeSpecializations(skills []skill) []skill {
+	existing := map[string]bool{}
+	uniqueSkills := make([]skill, 0, len(skills))
+	for _, s := range skills {
+		if _, found := existing[s.Name]; found {
+			continue
+		}
+		existing[s.Name] = true
+		s.Specialization = noSpecialization
+		uniqueSkills = append(uniqueSkills, s)
+	}
+	return uniqueSkills
+}
+
+type maxLevelBySkillName map[string]int
+
+func (m maxLevelBySkillName) SetSkillsLevel(skills []skill, level int) maxLevelBySkillName {
+	for _, skill := range skills {
+		if level > m[skill.Name] {
+			m[skill.Name] = level
+		}
+	}
+	return m
+}
+
+func (m maxLevelBySkillName) RemoveAnySkillWithLevelFrom(skills []skill) []skill {
+	filteredSkills := make([]skill, 0, len(skills))
+	for _, s := range skills {
+		if _, found := m[s.Name]; found {
+			continue
+		}
+		filteredSkills = append(filteredSkills, s)
+	}
+	return filteredSkills
 }
 
 var skillLevelDistributionByExperience = map[Experience]levelDistribution{
@@ -66,17 +109,17 @@ var skillLevelDistributionByExperience = map[Experience]levelDistribution{
 	},
 }
 
-func appendLevel(skills []string, level int) []string {
+func appendLevel(skills []skill, level int) []string {
 	skillsWithLevels := make([]string, len(skills))
-	for i, skill := range skills {
-		skillsWithLevels[i] = fmt.Sprintf("%s-%d", skill, level)
+	for i, s := range skills {
+		skillsWithLevels[i] = s.StringLevel(level)
 	}
 	return skillsWithLevels
 }
 
-func pop(skills []string, numberOfSkillsToPop int) (resultingSkills []string, remaining []string) {
+func pop(skills []skill, numberOfSkillsToPop int) (resultingSkills []skill, remaining []skill) {
 	if len(skills) == 0 {
-		return []string{}, []string{}
+		return []skill{}, []skill{}
 	}
 	if numberOfSkillsToPop > len(skills) {
 		numberOfSkillsToPop = len(skills)

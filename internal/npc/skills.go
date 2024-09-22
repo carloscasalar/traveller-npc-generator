@@ -1,0 +1,227 @@
+package npc
+
+import "fmt"
+
+const placeholderForSpecialization = "         "
+const noSpecialization = ""
+
+type skill struct {
+	Name           string
+	Specialization string
+}
+
+func newSkill(name string) skill {
+	return skill{Name: name, Specialization: noSpecialization}
+}
+
+func newSpecialization(name, specialization string) skill {
+	return skill{Name: name, Specialization: specialization}
+}
+
+func (s skill) StringLevel(level int) string {
+	skillText := s.Name
+	if s.Specialization != noSpecialization {
+		skillText += fmt.Sprintf(" (%v)", s.Specialization)
+	}
+	return fmt.Sprintf("%v-%v", skillText, level)
+}
+
+var skillsByRole = map[Role][]skill{
+	RolePilot: {
+		newSpecialization("Pilot", "Spacecraft"),
+		newSkill("Astrogation"),
+		newSkill("Sensors"),
+		newSkill("Gunnery"),
+		newSkill("Mechanic"),
+		newSkill("Communications"),
+		newSkill("Leadership"),
+		newSkill("Tactics"),
+		newSkill("Small Craft"),
+		newSkill("Engineering"),
+		newSpecialization("Vehicle", "Grav"),
+		newSkill("Survival"),
+	},
+	RoleNavigator: {
+		newSkill("Astrogation"),
+		newSkill("Sensors"),
+		newSpecialization("Pilot", "Spacecraft"),
+		newSkill("Computers"),
+		newSkill("Survival"),
+		newSpecialization("Electronic", "Sensors"),
+		newSkill("Mechanic"),
+		newSkill("Leadership"),
+		newSkill("Tactics"),
+		newSkill("Engineering"),
+		newSpecialization("Navigation", "Surface"),
+		newSkill("Liaison"),
+	},
+	RoleEngineer: {
+		newSkill("Engineering"),
+		newSkill("Mechanic"),
+		newSpecialization("Electronics", "Power"),
+		newSpecialization("Electronics", "Computers"),
+		newSpecialization("Engineering", "Jump Drive"),
+		newSpecialization("Engineering", "Life Support"),
+		newSpecialization("Engineering", "Maneuver Drive"),
+		newSkill("Sensors"),
+		newSkill("Computer"),
+		newSkill("Survival"),
+		newSpecialization("Pilot", "Spacecraft"),
+		newSkill("Leadership"),
+	},
+	RoleSteward: {
+		newSkill("Steward"),
+		newSkill("Carouse"),
+		newSkill("Persuade"),
+		newSkill("Broker"),
+		newSkill("Admin"),
+		newSpecialization("Electronic", "Computer"),
+		newSpecialization("Language", placeholderForSpecialization),
+		newSpecialization("Advocate", "Law"),
+		newSkill("Leadership"),
+		newSkill("Medic"),
+		newSkill("Streetwise"),
+		newSkill("Diplomacy"),
+	},
+	RoleMedic: {
+		newSkill("Medic"),
+		newSkill("Biology"),
+		newSkill("Chemical"),
+		newSpecialization("Electronics", "Medical"),
+		newSkill("Diplomat"),
+		newSkill("Persuade"),
+		newSkill("Investigate"),
+		newSkill("Broker"),
+		newSkill("Computers"),
+		newSkill("Admin"),
+		newSkill("Sensors"),
+		newSpecialization("Drive", placeholderForSpecialization),
+	},
+	RoleMarine: {
+		newSkill("Gunnery"),
+		newSkill("Survival"),
+		newSpecialization("Athletics", "Strength"),
+		newSpecialization("Melee", "Unarmed"),
+		newSpecialization("Tactics", "Military"),
+		newSkill("Recon"),
+		newSkill("Sensors"),
+		newSkill("Leadership"),
+		newSkill("Heavy Weapons"),
+		newSkill("Medic"),
+		newSpecialization("Piloting", "Ground"),
+		newSkill("Communications"),
+	},
+	RoleGunner: {
+		newSkill("Gunnery"),
+		newSkill("Sensors"),
+		newSkill("Tactics"),
+		newSkill("Gun Combat"),
+		newSkill("Leadership"),
+		newSkill("Mechanic"),
+		newSpecialization("Electronics", "Advanced Weapons"),
+		newSkill("Computer"),
+		newSkill("Heavy Weapons"),
+		newSpecialization("Pilot", "Small Craft"),
+		newSpecialization("Athletics", "Dexterity"),
+		newSpecialization("Melee", "Blade"),
+	},
+	RoleScout: {
+		newSkill("Survival"),
+		newSkill("Recon"),
+		newSpecialization("Pilot", "Small Craft"),
+		newSkill("Astrogation"),
+		newSkill("Sensors"),
+		newSkill("Stealth"),
+		newSkill("Gunnery"),
+		newSkill("Medic"),
+		newSkill("Tactics"),
+		newSkill("Gun Combat"),
+		newSkill("Navigation"),
+		newSkill("Leadership"),
+	},
+	RoleTechnician: {
+		newSkill("Mechanic"),
+		newSpecialization("Electronics", "Computers"),
+		newSkill("Engineering"),
+		newSkill("Sensors"),
+		newSkill("Computers"),
+		newSpecialization("Electronics", "Power"),
+		newSpecialization("Electronics", "Robotics"),
+		newSpecialization("Vehicle", placeholderForSpecialization),
+		newSpecialization("Piloting", "Small Craft"),
+		newSkill("Communications"),
+		newSkill("Athletics"),
+		newSkill("Programming"),
+	},
+	RoleLeader: {
+		newSkill("Leadership"),
+		newSkill("Tactics"),
+		newSkill("Admin"),
+		newSkill("Diplomat"),
+		newSkill("Persuade"),
+		newSkill("Advocate"),
+		newSkill("Sensors"),
+		newSkill("Computers"),
+		newSpecialization("Pilot", "Spacecraft"),
+		newSkill("Engineering"),
+		newSkill("Medic"),
+		newSkill("Recon"),
+	},
+	RoleDiplomat: {
+		newSkill("Diplomat"),
+		newSkill("Persuade"),
+		newSkill("Advocate"),
+		newSkill("Admin"),
+		newSkill("Carouse"),
+		newSkill("Streetwise"),
+		newSkill("Linguistics"),
+		newSkill("Leadership"),
+		newSkill("Tactics"),
+		newSkill("Computers"),
+		newSkill("Sensors"),
+		newSpecialization("Electronics", "Communications"),
+	},
+	RoleEntertainer: {
+		newSkill("Carouse"),
+		newSkill("Streetwise"),
+		newSpecialization("Perform", placeholderForSpecialization),
+		newSkill("Persuade"),
+		newSkill("Stealth"),
+		newSkill("Deception"),
+		newSkill("Diplomat"),
+		newSkill("Computers"),
+		newSkill("Sensors"),
+		newSkill("Leadership"),
+		newSkill("Broker"),
+		newSkill("Awareness"),
+	},
+	RoleTrader: {
+		newSkill("Broker"),
+		newSkill("Persuade"),
+		newSkill("Admin"),
+		newSkill("Advocate"),
+		newSkill("Computers"),
+		newSkill("Streetwise"),
+		newSpecialization("Trade", placeholderForSpecialization),
+		newSkill("Carouse"),
+		newSkill("Diplomat"),
+		newSkill("Awareness"),
+		newSkill("Mechanic"),
+		newSkill("Sensors"),
+	},
+	RoleThug: {
+		newSpecialization("Melee", "Unarmed"),
+		newSkill("Gun Combat"),
+		newSpecialization("Melee", "Blade"),
+		newSpecialization("Athletics", "Strength"),
+		newSkill("Stealth"),
+		newSkill("Streetwise"),
+		newSkill("Carouse"),
+		newSkill("Tactics"),
+		newSkill("Awareness"),
+		newSkill("Survival"),
+		newSkill("Persuade"),
+		newSkill("Grenades"),
+		newSkill("Computers"),
+	},
+}
