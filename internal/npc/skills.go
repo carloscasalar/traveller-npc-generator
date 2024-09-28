@@ -2,6 +2,8 @@ package npc
 
 import "fmt"
 
+// For future reference, here is a list of skills: https://github.com/jacob7395/Traveller-Sheet/blob/master/SkillList.txt
+
 const placeholderForSpecialization = "         "
 const noSpecialization = ""
 
@@ -38,7 +40,7 @@ var skillsByRole = map[Role][]skill{
 		newSkill("Tactics"),
 		newSkill("Small Craft"),
 		newSkill("Engineering"),
-		newSpecialization("Vehicle", "Grav"),
+		newSpecialization("Drive", "Grav"),
 		newSkill("Survival"),
 	},
 	RoleNavigator: {
@@ -68,6 +70,7 @@ var skillsByRole = map[Role][]skill{
 		newSkill("Survival"),
 		newSpecialization("Pilot", "Spacecraft"),
 		newSkill("Leadership"),
+		newSkill("Vacc Suit"),
 	},
 	RoleSteward: {
 		newSkill("Steward"),
@@ -108,7 +111,7 @@ var skillsByRole = map[Role][]skill{
 		newSkill("Sensors"),
 		newSkill("Leadership"),
 		newSkill("Medic"),
-		newSpecialization("Piloting", "Ground"),
+		newSpecialization("Pilot", "Ground"),
 		newSkill("Communications"),
 	},
 	RoleGunner: {
@@ -142,16 +145,16 @@ var skillsByRole = map[Role][]skill{
 	RoleTechnician: {
 		newSkill("Mechanic"),
 		newSpecialization("Electronics", "Computers"),
-		newSkill("Engineering"),
-		newSkill("Sensors"),
-		newSkill("Computers"),
-		newSpecialization("Electronics", "Power"),
-		newSpecialization("Electronics", "Robotics"),
-		newSpecialization("Vehicle", placeholderForSpecialization),
-		newSpecialization("Piloting", "Small Craft"),
-		newSkill("Communications"),
+		newSpecialization("Electronics", "Sensors"),
+		newSpecialization("Engineering", "Power"),
+		newSpecialization("Engineering", "Maneuver Drive"),
+		newSpecialization("Drive", placeholderForSpecialization),
+		newSpecialization("Pilot", placeholderForSpecialization),
+		newSkill("Vacc Suit"),
+		newSkill("Recon"),
 		newSkill("Athletics"),
-		newSkill("Programming"),
+		newSkill("Survival"),
+		newSkill("Explosives"),
 	},
 	RoleLeader: {
 		newSkill("Leadership"),
