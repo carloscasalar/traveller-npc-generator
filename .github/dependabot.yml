@@ -14,4 +14,3 @@ updates:
     labels:
       - "chore"
       - "dependencies"
-    versioning-strategy: "auto"
