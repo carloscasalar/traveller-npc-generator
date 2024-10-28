@@ -7,7 +7,7 @@ type CharacterSheetBuilder struct {
 	role            string
 	experience      string
 	skills          []string
-	characteristics map[string]int
+	characteristics map[Characteristic]int
 }
 
 func NewCharacterSheetBuilder() *CharacterSheetBuilder {
@@ -34,7 +34,7 @@ func (b *CharacterSheetBuilder) Skills(skills []string) *CharacterSheetBuilder {
 	return b
 }
 
-func (b *CharacterSheetBuilder) Characteristics(characteristics map[string]int) *CharacterSheetBuilder {
+func (b *CharacterSheetBuilder) Characteristics(characteristics map[Characteristic]int) *CharacterSheetBuilder {
 	b.characteristics = characteristics
 	return b
 }

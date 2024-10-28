@@ -1,6 +1,6 @@
 package npc
 
-//go:generate enumer -type=Characteristic -output=characteristics_auto.go
+//go:generate enumer -type=Characteristic -output=characteristic_auto.go
 type Characteristic int
 
 const (
@@ -11,16 +11,6 @@ const (
 	EDU                       // Education
 	SOC                       // Social Standing
 )
-
-type Characteristics map[Characteristic]int
-
-func (c Characteristics) Stringify() map[string]int {
-	result := make(map[string]int)
-	for k, v := range c {
-		result[k.String()] = v
-	}
-	return result
-}
 
 type roleCharacteristics struct {
 	High   [2]Characteristic

@@ -29,7 +29,7 @@ func (r Role) Skills(experience Experience) []string {
 	return []string{}
 }
 
-func (r Role) RandomCharacteristic(category CitizenCategory) Characteristics {
+func (r Role) RandomCharacteristic(category CitizenCategory) map[Characteristic]int {
 	characteristicsArray := characteristicArrayByCitizenCategory[category]
 	characteristics := make(map[Characteristic]int)
 	preferences := characteristicPreferenceByRole[r]

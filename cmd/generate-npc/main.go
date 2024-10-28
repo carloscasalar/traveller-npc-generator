@@ -39,9 +39,20 @@ func main() {
 		Role(role.String()).
 		Experience(experience.String()).
 		Skills(role.Skills(experience)).
-		Characteristics(role.RandomCharacteristic(category).Stringify()).
+		Characteristics(toUICharacteristics(role.RandomCharacteristic(category))).
 		Build()
 	printSheet(sheet)
+}
+
+func toUICharacteristics(characteristic map[npc.Characteristic]int) map[ui.Characteristic]int {
+	return map[ui.Characteristic]int{
+		ui.STR: characteristic[npc.STR],
+		ui.DEX: characteristic[npc.DEX],
+		ui.END: characteristic[npc.END],
+		ui.INT: characteristic[npc.INT],
+		ui.EDU: characteristic[npc.EDU],
+		ui.SOC: characteristic[npc.SOC],
+	}
 }
 
 func spawnNameGeneratorOrFail() name.Generator {
