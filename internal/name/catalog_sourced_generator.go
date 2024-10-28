@@ -8,7 +8,7 @@ type catalogSourcedGenerator struct {
 }
 
 func NewCatalogSourcedGenerator(surnames, nonGenderNames, femaleFirstNames, maleFirstNames []string) Generator {
-	return catalogSourcedGenerator{
+	return &catalogSourcedGenerator{
 		namesByGender: map[Gender][]string{
 			GenderUnspecified: nonGenderNames,
 			GenderFemale:      femaleFirstNames,
