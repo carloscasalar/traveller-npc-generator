@@ -33,6 +33,15 @@ func main() {
 	titleValue("Experience: ", experience.String())
 	titleValue("Skills: ", role.Skills(experience))
 	titleValue("Characteristics: ", role.RandomCharacteristic(category))
+
+	sheet := ui.NewCharacterSheetBuilder().
+		FullName(fullName).
+		Role(role.String()).
+		Experience(experience.String()).
+		Skills(role.Skills(experience)).
+		Characteristics(role.RandomCharacteristic(category).Stringify()).
+		Build()
+	printSheet(sheet)
 }
 
 func spawnNameGeneratorOrFail() name.Generator {
@@ -125,6 +134,10 @@ func printErrorf(template string, a ...interface{}) {
 
 func titleValue[T any](title string, value T) {
 	fmt.Println(ui.NewTitleValueRenderer(title, fmt.Sprintf("%v", value)).Render())
+}
+
+func printSheet(sheet *ui.CharacterSheet) {
+	fmt.Println(sheet.Render())
 }
 
 type NameConfig struct {
