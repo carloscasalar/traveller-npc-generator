@@ -8,7 +8,7 @@ type CharacterSheet struct {
 	role            string
 	experience      string
 	skills          []string
-	characteristics []string
+	characteristics map[string]int
 }
 
 func (c *CharacterSheet) Render() string {
