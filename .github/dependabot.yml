@@ -11,7 +11,7 @@ updates:
     schedule:
       interval: "monthly"
     commit-message:
-        prefix: "chore(deps): ⚛︎ update"
+      prefix: "chore(deps): ⚛︎ update"
     labels:
       - "chore"
       - "dependencies"
