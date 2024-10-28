@@ -22,13 +22,13 @@ func (c Characteristics) Stringify() map[string]int {
 	return result
 }
 
-type RoleCharacteristics struct {
+type roleCharacteristics struct {
 	High   [2]Characteristic
 	Medium [2]Characteristic
 	Low    [2]Characteristic
 }
 
-var characteristicPreferenceByRole = map[Role]RoleCharacteristics{
+var characteristicPreferenceByRole = map[Role]roleCharacteristics{
 	RolePilot:       {High: [2]Characteristic{DEX, INT}, Medium: [2]Characteristic{EDU, STR}, Low: [2]Characteristic{END, SOC}},
 	RoleNavigator:   {High: [2]Characteristic{INT, EDU}, Medium: [2]Characteristic{DEX, SOC}, Low: [2]Characteristic{STR, END}},
 	RoleEngineer:    {High: [2]Characteristic{INT, EDU}, Medium: [2]Characteristic{DEX, END}, Low: [2]Characteristic{STR, SOC}},
