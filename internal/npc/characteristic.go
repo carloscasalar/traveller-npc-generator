@@ -12,6 +12,16 @@ const (
 	SOC                       // Social Standing
 )
 
+type Characteristics map[Characteristic]int
+
+func (c Characteristics) Stringify() map[string]int {
+	result := make(map[string]int)
+	for k, v := range c {
+		result[k.String()] = v
+	}
+	return result
+}
+
 type RoleCharacteristics struct {
 	High   [2]Characteristic
 	Medium [2]Characteristic
