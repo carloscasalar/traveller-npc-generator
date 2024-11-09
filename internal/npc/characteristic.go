@@ -1,6 +1,6 @@
 package npc
 
-//go:generate enumer -type=Characteristic -output=characteristics_auto.go
+//go:generate enumer -type=Characteristic -output=characteristic_auto.go
 type Characteristic int
 
 const (
@@ -12,13 +12,13 @@ const (
 	SOC                       // Social Standing
 )
 
-type RoleCharacteristics struct {
+type roleCharacteristics struct {
 	High   [2]Characteristic
 	Medium [2]Characteristic
 	Low    [2]Characteristic
 }
 
-var characteristicPreferenceByRole = map[Role]RoleCharacteristics{
+var characteristicPreferenceByRole = map[Role]roleCharacteristics{
 	RolePilot:       {High: [2]Characteristic{DEX, INT}, Medium: [2]Characteristic{EDU, STR}, Low: [2]Characteristic{END, SOC}},
 	RoleNavigator:   {High: [2]Characteristic{INT, EDU}, Medium: [2]Characteristic{DEX, SOC}, Low: [2]Characteristic{STR, END}},
 	RoleEngineer:    {High: [2]Characteristic{INT, EDU}, Medium: [2]Characteristic{DEX, END}, Low: [2]Characteristic{STR, SOC}},
