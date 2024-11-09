@@ -29,10 +29,10 @@ type CharacterSheet struct {
 func (c *CharacterSheet) Render() string {
 	sheetRender := new(strings.Builder)
 
-	titleBox, valueBox := c.getTableStyles()
-	nameRoleTable := c.buildNameRoleTable(valueBox, titleBox)
-	characteristicsTable := c.buildCharacteristicsTable(titleBox, valueBox)
-	skillsTable := c.buildSillsTable(titleBox, valueBox)
+	titleStyle, valueStyle := c.getTableStyles()
+	nameRoleTable := c.buildNameRoleTable(valueStyle, titleStyle)
+	characteristicsTable := c.buildCharacteristicsTable(titleStyle, valueStyle)
+	skillsTable := c.buildSillsTable(titleStyle, valueStyle)
 
 	sheetRender.WriteString(nameRoleTable.Render())
 	sheetRender.WriteString("\n")
