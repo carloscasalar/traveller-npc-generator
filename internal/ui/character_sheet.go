@@ -29,52 +29,27 @@ type CharacterSheet struct {
 func (c *CharacterSheet) Render() string {
 	sheetRender := new(strings.Builder)
 
-	style := newLipGlossDefaultStyle()
-	titleBox := lipgloss.NewStyle().
-		Bold(true).
-		Foreground(style.titleColor)
-	valueBox := lipgloss.NewStyle().
-		Foreground(style.valueColor)
+	titleBox, valueBox := c.getTableStyles()
+	nameRoleTable := c.buildNameRoleTable(valueBox, titleBox)
+	characteristicsTable := c.buildCharacteristicsTable(titleBox, valueBox)
+	skillsTable := c.buildSillsTable(titleBox, valueBox)
 
-	nameRoleTable := table.New().
-		Border(lipgloss.RoundedBorder()).
-		Headers("Name", "Role").
-		Rows([]string{c.fullName, c.roleDescriptionWithStyle(valueBox)}).
-		Width(tableWidth).
-		StyleFunc(func(row, col int) lipgloss.Style {
-			switch row {
-			case headerIndex:
-				return titleBox.PaddingLeft(1)
-			default:
-				return valueBox.PaddingLeft(1)
-			}
-		})
 	sheetRender.WriteString(nameRoleTable.Render())
 	sheetRender.WriteString("\n")
-
-	characteristicsTable := table.New().
-		Border(lipgloss.RoundedBorder()).
-		Headers(toStringList(CharacteristicValues())...).
-		Rows(c.characteristicsValues()).
-		Width(tableWidth).
-		StyleFunc(func(row, col int) lipgloss.Style {
-			switch row {
-			case headerIndex:
-				return titleBox.Align(lipgloss.Center)
-			default:
-				return valueBox.Align(lipgloss.Center)
-			}
-		})
-
 	sheetRender.WriteString(characteristicsTable.Render())
 	sheetRender.WriteString("\n")
+	sheetRender.WriteString(skillsTable.Render())
 
+	return sheetRender.String()
+}
+
+func (c *CharacterSheet) buildSillsTable(titleBox lipgloss.Style, valueBox lipgloss.Style) *table.Table {
 	skillsTable := table.New().
 		Border(lipgloss.RoundedBorder()).
 		Headers("Skills").
 		Rows([]string{strings.Join(c.skills, ", ")}).
 		Width(tableWidth).
-		StyleFunc(func(row, col int) lipgloss.Style {
+		StyleFunc(func(row, _ int) lipgloss.Style {
 			switch row {
 			case headerIndex:
 				return titleBox.PaddingLeft(1)
@@ -84,9 +59,51 @@ func (c *CharacterSheet) Render() string {
 					Height(3)
 			}
 		})
-	sheetRender.WriteString(skillsTable.Render())
+	return skillsTable
+}
 
-	return sheetRender.String()
+func (c *CharacterSheet) buildCharacteristicsTable(titleBox lipgloss.Style, valueBox lipgloss.Style) *table.Table {
+	characteristicsTable := table.New().
+		Border(lipgloss.RoundedBorder()).
+		Headers(toStringList(CharacteristicValues())...).
+		Rows(c.characteristicsValues()).
+		Width(tableWidth).
+		StyleFunc(func(row, _ int) lipgloss.Style {
+			switch row {
+			case headerIndex:
+				return titleBox.Align(lipgloss.Center)
+			default:
+				return valueBox.Align(lipgloss.Center)
+			}
+		})
+	return characteristicsTable
+}
+
+func (c *CharacterSheet) buildNameRoleTable(valueBox lipgloss.Style, titleBox lipgloss.Style) *table.Table {
+	nameRoleTable := table.New().
+		Border(lipgloss.RoundedBorder()).
+		Headers("Name", "Role").
+		Rows([]string{c.fullName, c.roleDescriptionWithStyle(valueBox)}).
+		Width(tableWidth).
+		StyleFunc(func(row, _ int) lipgloss.Style {
+			switch row {
+			case headerIndex:
+				return titleBox.PaddingLeft(1)
+			default:
+				return valueBox.PaddingLeft(1)
+			}
+		})
+	return nameRoleTable
+}
+
+func (c *CharacterSheet) getTableStyles() (titleBoxStyle lipgloss.Style, valueBoxStyle lipgloss.Style) {
+	style := newLipGlossDefaultStyle()
+	titleBoxStyle = lipgloss.NewStyle().
+		Bold(true).
+		Foreground(style.titleColor)
+	valueBoxStyle = lipgloss.NewStyle().
+		Foreground(style.valueColor)
+	return
 }
 
 func (c *CharacterSheet) roleDescriptionWithStyle(baseStyle lipgloss.Style) string {
