@@ -64,6 +64,24 @@ func (c *CharacterSheet) Render() string {
 		})
 
 	sheetRender.WriteString(characteristicsTable.Render())
+	sheetRender.WriteString("\n")
+
+	skillsTable := table.New().
+		Border(lipgloss.RoundedBorder()).
+		Headers("Skills").
+		Rows([]string{strings.Join(c.skills, ", ")}).
+		Width(tableWidth).
+		StyleFunc(func(row, col int) lipgloss.Style {
+			switch row {
+			case headerIndex:
+				return titleBox.PaddingLeft(1)
+			default:
+				return valueBox.
+					PaddingLeft(1).
+					Height(3)
+			}
+		})
+	sheetRender.WriteString(skillsTable.Render())
 
 	return sheetRender.String()
 }
