@@ -1,5 +1,8 @@
 # Define the binary name
 BINARY_NAME=./out/generate-npc
+BINARY_DEMO_NAME=./demo/generate-npc
+
+DEMO_ASSETS=demo/assets
 
 # Define the main package
 MAIN_PACKAGE=./cmd/generate-npc
@@ -21,6 +24,12 @@ install-tools:
 build: out
 	@go build -o $(BINARY_NAME) $(MAIN_PACKAGE)
 
+# Build binary to generate the demo.gif inside the vhs docker container
+build-demo: out
+	env GOOS=linux go build -o $(BINARY_DEMO_NAME) $(MAIN_PACKAGE)
+	mkdir -p $(DEMO_ASSETS)
+	cp assets/* $(DEMO_ASSETS)
+
 # Run the Go application
 run: build
 	$(BINARY_NAME) $(filter-out $@,$(MAKECMDGOALS))
@@ -36,9 +45,14 @@ lint:
 # Run all checks
 check: lint test
 
+save-demo-gif: build-demo
+	docker run --rm -v ${PWD}/demo:/vhs ghcr.io/charmbracelet/vhs demo.tape
+
 # Clean up build artifacts
 clean:
 	rm -f $(BINARY_NAME)
+	rm -f $(BINARY_DEMO_NAME)
+	rm -rf $(DEMO_ASSETS)
 
 # Default target
 all: build

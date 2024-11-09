@@ -37,3 +37,21 @@ According to the previous experience of the NPC, the generator will assign a num
 <tr> <td>Elite</td> <td>1</td> <td>2</td> <td>3</td> <td>6</td> </tr>
 </tbody> 
 </table>
+
+## Build & Run
+
+To build the project execute the following command:
+
+```bash
+make build
+```
+
+This will generate this binary `out/generate-npc`. 
+
+To run the project execute the following command:
+
+```bash
+./out/generate-npc --help
+```
+
+<img src="demo/demo.gif" alt="Demo" />
