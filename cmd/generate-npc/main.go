@@ -38,6 +38,7 @@ func main() {
 	sheet := ui.NewCharacterSheetBuilder().
 		FullName(fullName).
 		Role(role.String()).
+		CitizenCategory(category.String()).
 		Experience(experience.String()).
 		Skills(role.Skills(experience)).
 		Characteristics(toUICharacteristics(characteristic)).

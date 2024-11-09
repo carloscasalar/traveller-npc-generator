@@ -20,6 +20,7 @@ const (
 type CharacterSheet struct {
 	fullName        string
 	role            string
+	citizenCategory string
 	experience      string
 	skills          []string
 	characteristics map[Characteristic]int
@@ -35,15 +36,10 @@ func (c *CharacterSheet) Render() string {
 	valueBox := lipgloss.NewStyle().
 		Foreground(style.valueColor)
 
-	titler := cases.Title(language.English)
-	roleText := fmt.Sprintf(
-		"%v (%v)",
-		titler.String(c.role),
-		titler.String(c.experience))
 	nameRoleTable := table.New().
 		Border(lipgloss.RoundedBorder()).
 		Headers("Name", "Role").
-		Rows([]string{c.fullName, roleText}).
+		Rows([]string{c.fullName, c.roleDescriptionWithStyle(valueBox)}).
 		Width(tableWidth).
 		StyleFunc(func(row, col int) lipgloss.Style {
 			switch row {
@@ -91,6 +87,28 @@ func (c *CharacterSheet) Render() string {
 	sheetRender.WriteString(skillsTable.Render())
 
 	return sheetRender.String()
+}
+
+func (c *CharacterSheet) roleDescriptionWithStyle(baseStyle lipgloss.Style) string {
+	roleBox := baseStyle
+	categoryExperienceBox := baseStyle.Italic(true).MarginLeft(1)
+	categoryBox := baseStyle.Italic(true).Faint(true)
+	experienceBox := baseStyle.Italic(true).Bold(true).MarginLeft(1)
+	titleCaser := cases.Title(language.English)
+
+	return lipgloss.JoinHorizontal(
+		lipgloss.Left,
+		roleBox.Render(titleCaser.String(c.role)),
+		categoryExperienceBox.Render(
+			lipgloss.JoinHorizontal(
+				lipgloss.Left,
+				"(",
+				categoryBox.Render(titleCaser.String(c.citizenCategory)),
+				experienceBox.Render(titleCaser.String(c.experience)),
+				baseStyle.Render(")"),
+			),
+		),
+	)
 }
 
 func (c *CharacterSheet) characteristicsValues() []string {

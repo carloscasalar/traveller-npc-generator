@@ -5,6 +5,7 @@ package ui
 type CharacterSheetBuilder struct {
 	fullName        string
 	role            string
+	citizenCategory string
 	experience      string
 	skills          []string
 	characteristics map[Characteristic]int
@@ -21,6 +22,11 @@ func (b *CharacterSheetBuilder) FullName(fullName string) *CharacterSheetBuilder
 
 func (b *CharacterSheetBuilder) Role(role string) *CharacterSheetBuilder {
 	b.role = role
+	return b
+}
+
+func (b *CharacterSheetBuilder) CitizenCategory(citizenCategory string) *CharacterSheetBuilder {
+	b.citizenCategory = citizenCategory
 	return b
 }
 
@@ -43,6 +49,7 @@ func (b *CharacterSheetBuilder) Build() *CharacterSheet {
 	return &CharacterSheet{
 		fullName:        b.fullName,
 		role:            b.role,
+		citizenCategory: b.citizenCategory,
 		experience:      b.experience,
 		skills:          b.skills,
 		characteristics: b.characteristics,
