@@ -27,19 +27,20 @@ func main() {
 	gender := readGender(opts)
 	firstName, surname := nameGenerator.Generate(gender)
 	fullName := fmt.Sprintf("%v %v", firstName, surname)
+	characteristic := role.RandomCharacteristic(category)
 
 	titleValue("Name: ", fullName)
 	titleValue("Role: ", role.String())
 	titleValue("Experience: ", experience.String())
 	titleValue("Skills: ", role.Skills(experience))
-	titleValue("Characteristics: ", role.RandomCharacteristic(category))
+	titleValue("Characteristics: ", characteristic)
 
 	sheet := ui.NewCharacterSheetBuilder().
 		FullName(fullName).
 		Role(role.String()).
 		Experience(experience.String()).
 		Skills(role.Skills(experience)).
-		Characteristics(toUICharacteristics(role.RandomCharacteristic(category))).
+		Characteristics(toUICharacteristics(characteristic)).
 		Build()
 	printSheet(sheet)
 }
