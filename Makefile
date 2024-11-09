@@ -48,6 +48,9 @@ check: lint test
 save-demo-gif: build-demo
 	docker run --rm -v ${PWD}/demo:/vhs ghcr.io/charmbracelet/vhs demo.tape
 
+publish-demo-gif: build-demo
+	docker run --rm -v ${PWD}/demo:/vhs ghcr.io/charmbracelet/vhs demo.tape --publish
+
 # Clean up build artifacts
 clean:
 	rm -f $(BINARY_NAME)
