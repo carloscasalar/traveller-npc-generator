@@ -13,6 +13,11 @@ import (
 func main() {
 	opts := readOptionsOrFail()
 	nameGenerator := spawnNameGeneratorOrFail()
+	debugEnabled := opts.EnableDebug
+
+	if debugEnabled {
+		printOptionsRead(opts)
+	}
 
 	category := readCitizenCategory(opts)
 	experience := readExperience(opts)
@@ -21,6 +26,10 @@ func main() {
 	firstName, surname := nameGenerator.Generate(gender)
 	fullName := fmt.Sprintf("%v %v", firstName, surname)
 	characteristic := role.RandomCharacteristic(category)
+
+	if debugEnabled {
+		printGeneratedValues(fullName, role, experience, characteristic)
+	}
 
 	sheet := ui.NewCharacterSheetBuilder().
 		FullName(fullName).
@@ -31,6 +40,23 @@ func main() {
 		Characteristics(toUICharacteristics(characteristic)).
 		Build()
 	printSheet(sheet)
+}
+
+func printOptionsRead(opts CommandOptions) {
+	prompt("Inputs--------------")
+	titleValue("CitizenCategory: ", opts.CitizenCategory)
+	titleValue("Experience: ", opts.Experience)
+	titleValue("CrewRole: ", opts.CrewRole)
+}
+
+func printGeneratedValues(fullName string, role npc.Role, experience npc.Experience, characteristic map[npc.Characteristic]int) {
+	prompt("Generated ----------")
+	titleValue("Name: ", fullName)
+	titleValue("Role: ", role.String())
+	titleValue("Experience: ", experience.String())
+	titleValue("Skills: ", role.Skills(experience))
+	titleValue("Characteristics: ", characteristic)
+	prompt("--------------------")
 }
 
 func toUICharacteristics(characteristic map[npc.Characteristic]int) map[ui.Characteristic]int {
@@ -122,10 +148,19 @@ type CommandOptions struct {
 	Experience      int    `short:"e" default:"3" long:"experience" choice:"0" choice:"1" choice:"2" choice:"3" choice:"4" choice:"5" description:"Experience: 0-Recruit, 1-Rookie, 2-Intermediate, 3-Regular, 4-Veteran, 5-Elite" required:"true"`
 	CrewRole        string `short:"r" long:"role" required:"true" choice:"pilot" choice:"navigator" choice:"engineer" choice:"steward" choice:"medic" choice:"marine" choice:"gunner" choice:"scout" choice:"technician" choice:"leader" choice:"diplomat" choice:"entertainer" choice:"trader" choice:"thug" description:"Crew role in a starship"`
 	Gender          string `short:"g" long:"gender" default:"unspecified" choice:"female" choice:"male" choice:"unspecified" description:"Gender of the NPC"`
+	EnableDebug     bool   `short:"d" long:"debug" description:"Enable debug mode"`
+}
+
+func prompt(value string) {
+	fmt.Println(ui.NewPromptRenderer(value).Render())
 }
 
 func printErrorf(template string, a ...interface{}) {
 	_, _ = fmt.Fprintf(os.Stderr, template, a...)
+}
+
+func titleValue[T any](title string, value T) {
+	fmt.Println(ui.NewTitleValueRenderer(title, fmt.Sprintf("%v", value)).Render())
 }
 
 func printSheet(sheet *ui.CharacterSheet) {
