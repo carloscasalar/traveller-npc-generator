@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/lipgloss/table"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 	"strings"
 )
 
@@ -33,10 +35,15 @@ func (c *CharacterSheet) Render() string {
 	valueBox := lipgloss.NewStyle().
 		Foreground(style.valueColor)
 
+	titler := cases.Title(language.English)
+	roleText := fmt.Sprintf(
+		"%v (%v)",
+		titler.String(c.role),
+		titler.String(c.experience))
 	nameRoleTable := table.New().
 		Border(lipgloss.RoundedBorder()).
 		Headers("Name", "Role").
-		Rows([]string{c.fullName, fmt.Sprintf("%v (%v)", c.role, c.experience)}).
+		Rows([]string{c.fullName, roleText}).
 		Width(tableWidth).
 		StyleFunc(func(row, col int) lipgloss.Style {
 			switch row {
