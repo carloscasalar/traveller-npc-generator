@@ -14,13 +14,6 @@ func main() {
 	opts := readOptionsOrFail()
 	nameGenerator := spawnNameGeneratorOrFail()
 
-	// TODO: remove this line when all the logic is implemented
-	prompt("Inputs--------------")
-	titleValue("CitizenCategory: ", opts.CitizenCategory)
-	titleValue("Experience: ", opts.Experience)
-	titleValue("CrewRole: ", opts.CrewRole)
-	prompt("--------------------")
-
 	category := readCitizenCategory(opts)
 	experience := readExperience(opts)
 	role := readRole(opts)
@@ -28,12 +21,6 @@ func main() {
 	firstName, surname := nameGenerator.Generate(gender)
 	fullName := fmt.Sprintf("%v %v", firstName, surname)
 	characteristic := role.RandomCharacteristic(category)
-
-	titleValue("Name: ", fullName)
-	titleValue("Role: ", role.String())
-	titleValue("Experience: ", experience.String())
-	titleValue("Skills: ", role.Skills(experience))
-	titleValue("Characteristics: ", characteristic)
 
 	sheet := ui.NewCharacterSheetBuilder().
 		FullName(fullName).
@@ -137,16 +124,8 @@ type CommandOptions struct {
 	Gender          string `short:"g" long:"gender" default:"unspecified" choice:"female" choice:"male" choice:"unspecified" description:"Gender of the NPC"`
 }
 
-func prompt(value string) {
-	fmt.Println(ui.NewPromptRenderer(value).Render())
-}
-
 func printErrorf(template string, a ...interface{}) {
 	_, _ = fmt.Fprintf(os.Stderr, template, a...)
-}
-
-func titleValue[T any](title string, value T) {
-	fmt.Println(ui.NewTitleValueRenderer(title, fmt.Sprintf("%v", value)).Render())
 }
 
 func printSheet(sheet *ui.CharacterSheet) {
