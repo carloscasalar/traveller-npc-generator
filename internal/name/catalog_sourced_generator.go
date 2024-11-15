@@ -18,15 +18,15 @@ func NewCatalogSourcedGenerator(surnames, nonGenderNames, femaleFirstNames, male
 	}
 }
 
-func (c catalogSourcedGenerator) Generate(gender Gender) (FirstName, Surname) {
+func (c catalogSourcedGenerator) Generate(gender Gender) (firstName, surname string) {
 	if !gender.IsAGender() {
 		gender = pickRandomItem(GenderValues())
 	}
 
-	firstName := FirstName(pickRandomItem(c.namesByGender[gender]))
-	surname := Surname(pickRandomItem(c.surnames))
+	firstName = pickRandomItem(c.namesByGender[gender])
+	surname = pickRandomItem(c.surnames)
 
-	return firstName, surname
+	return
 }
 
 func pickRandomItem[T any](items []T) T {
