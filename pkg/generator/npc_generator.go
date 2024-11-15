@@ -1,7 +1,5 @@
 package generator
 
-import "errors"
-
 type NpcGenerator struct{}
 
 func NewNpcGenerator() *NpcGenerator {
@@ -13,5 +11,9 @@ func (g *NpcGenerator) Generate(request GenerateCharacterRequest) (*Character, e
 		return nil, err
 	}
 
-	return nil, errors.New("not implemented")
+	return &Character{
+		Role:       request.role,
+		Category:   request.category,
+		Experience: request.experience,
+	}, nil
 }

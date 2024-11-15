@@ -1,11 +1,28 @@
 package generator_test
 
 import (
+	"github.com/stretchr/testify/require"
 	"testing"
 
 	"github.com/carloscasalar/traveller-npc-generator/pkg/generator"
 	"github.com/stretchr/testify/assert"
 )
+
+func Test_resulting_character_should_have_same_category_experience_and_role_as_request(t *testing.T) {
+	request := generator.NewGenerateCharacterRequestBuilder().
+		Category(generator.CategoryExceptional).
+		Experience(generator.ExperienceRecruit).
+		Role(generator.RoleDiplomat).
+		Build()
+
+	npcGenerator := generator.NewNpcGenerator()
+	character, err := npcGenerator.Generate(*request)
+
+	require.NoError(t, err)
+	assert.Equal(t, generator.CategoryExceptional, character.Category)
+	assert.Equal(t, generator.ExperienceRecruit, character.Experience)
+	assert.Equal(t, generator.RoleDiplomat, character.Role)
+}
 
 func Test_when_category_is_invalid_it_returns_error(t *testing.T) {
 	nonValidCategory := generator.CitizenCategory(99)
