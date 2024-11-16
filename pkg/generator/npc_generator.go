@@ -1,9 +1,10 @@
 package generator
 
-type NpcGenerator struct{}
+type NpcGenerator struct {
+}
 
-func NewNpcGenerator() *NpcGenerator {
-	return &NpcGenerator{}
+func NewNpcGenerator() (*NpcGenerator, error) {
+	return &NpcGenerator{}, nil
 }
 
 func (g *NpcGenerator) Generate(request GenerateCharacterRequest) (*Character, error) {

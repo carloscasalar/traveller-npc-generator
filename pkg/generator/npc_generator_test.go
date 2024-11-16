@@ -15,7 +15,7 @@ func Test_resulting_character_should_have_same_category_experience_and_role_as_r
 		Role(generator.RoleDiplomat).
 		Build()
 
-	npcGenerator := generator.NewNpcGenerator()
+	npcGenerator, _ := generator.NewNpcGenerator()
 	character, err := npcGenerator.Generate(*request)
 
 	require.NoError(t, err)
@@ -30,7 +30,7 @@ func Test_when_category_is_invalid_it_returns_error(t *testing.T) {
 		Category(nonValidCategory).
 		Build()
 
-	npcGenerator := generator.NewNpcGenerator()
+	npcGenerator, _ := generator.NewNpcGenerator()
 	_, err := npcGenerator.Generate(*request)
 
 	assert.Error(t, err)
@@ -43,7 +43,7 @@ func Test_when_experience_is_invalid_it_returns_error(t *testing.T) {
 		Experience(nonValidExperience).
 		Build()
 
-	npcGenerator := generator.NewNpcGenerator()
+	npcGenerator, _ := generator.NewNpcGenerator()
 	_, err := npcGenerator.Generate(*request)
 
 	assert.Error(t, err)
@@ -56,7 +56,7 @@ func Test_when_role_is_invalid_it_returns_error(t *testing.T) {
 		Role(nonValidRole).
 		Build()
 
-	npcGenerator := generator.NewNpcGenerator()
+	npcGenerator, _ := generator.NewNpcGenerator()
 	_, err := npcGenerator.Generate(*request)
 
 	assert.Error(t, err)
@@ -69,7 +69,7 @@ func Test_when_gender_is_invalid_it_returns_error(t *testing.T) {
 		Gender(nonValidGender).
 		Build()
 
-	npcGenerator := generator.NewNpcGenerator()
+	npcGenerator, _ := generator.NewNpcGenerator()
 	_, err := npcGenerator.Generate(*request)
 
 	assert.Error(t, err)
