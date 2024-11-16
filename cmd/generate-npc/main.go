@@ -10,7 +10,7 @@ import (
 
 func main() {
 	opts := readOptionsOrFail()
-	generateName := spawnGenerateNameOrFail()
+	nameGenerator := spawnGenerateNameOrFail()
 	debugEnabled := opts.EnableDebug
 
 	if debugEnabled {
@@ -21,7 +21,7 @@ func main() {
 	experience := readExperience(opts)
 	role := readRole(opts)
 	gender := readGender(opts)
-	firstName, surname := generateName.Execute(gender)
+	firstName, surname := nameGenerator.Generate(gender)
 	fullName := fmt.Sprintf("%v %v", firstName, surname)
 	characteristic := role.RandomCharacteristic(category)
 
@@ -68,14 +68,14 @@ func toUICharacteristics(characteristic map[npc.Characteristic]int) map[ui.Chara
 	}
 }
 
-func spawnGenerateNameOrFail() generator.GenerateName {
-	generateName, err := generator.NewDefaultGenerateName()
+func spawnGenerateNameOrFail() generator.NameGenerator {
+	nameGenerator, err := generator.NewDefaultNameGenerator()
 	if err != nil {
 		printError(err)
 		os.Exit(1)
 	}
 
-	return generateName
+	return nameGenerator
 }
 
 func prompt(value string) {

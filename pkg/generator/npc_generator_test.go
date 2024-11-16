@@ -32,7 +32,7 @@ func Test_should_generate_an_npc_with_a_name(t *testing.T) {
 		Build()
 
 	npcGenerator, _ := generator.NewNpcGeneratorBuilder().
-		GenerateName(NewFixedGenerateName("John", "Doe")).
+		NameGenerator(NewFixedGenerateName("John", "Doe")).
 		Build()
 	character, err := npcGenerator.Generate(*request)
 
@@ -97,18 +97,18 @@ func newGenerator() (*generator.NpcGenerator, error) {
 	return generator.NewNpcGeneratorBuilder().Build()
 }
 
-type FixedGenerateName struct {
+type FixedNameGenerator struct {
 	firstName string
 	surname   string
 }
 
-func NewFixedGenerateName(firstName, surname string) *FixedGenerateName {
-	return &FixedGenerateName{
+func NewFixedGenerateName(firstName, surname string) *FixedNameGenerator {
+	return &FixedNameGenerator{
 		firstName: firstName,
 		surname:   surname,
 	}
 }
 
-func (g FixedGenerateName) Execute(generator.Gender) (string, string) {
+func (g FixedNameGenerator) Generate(generator.Gender) (string, string) {
 	return g.firstName, g.surname
 }

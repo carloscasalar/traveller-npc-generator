@@ -13,7 +13,7 @@ func TestCatalogSourcedGenerator_Generate(t *testing.T) {
 	femaleFirstNames := []string{"Female Name 1", "Female Name 2", "Female Name 3"}
 	maleFirstNames := []string{"Male Name 1", "Male Name 2", "Male Name 3"}
 
-	nameGenerator := generator.NewGenerateCatalogSourcedName(surnames, nonGenderNames, femaleFirstNames, maleFirstNames)
+	nameGenerator := generator.NewCatalogSourcedNameGenerator(surnames, nonGenderNames, femaleFirstNames, maleFirstNames)
 
 	tests := []struct {
 		gender                 generator.Gender
@@ -26,7 +26,7 @@ func TestCatalogSourcedGenerator_Generate(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(fmt.Sprintf("Given gender is %v", tt.gender.String()), func(t *testing.T) {
-			firstName, surname := nameGenerator.Execute(tt.gender)
+			firstName, surname := nameGenerator.Generate(tt.gender)
 
 			assert.Contains(t, surnames, string(surname))
 			assert.Contains(t, tt.expectedToBeChosenFrom, string(firstName))

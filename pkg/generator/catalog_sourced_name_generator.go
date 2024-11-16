@@ -2,13 +2,13 @@ package generator
 
 import "math/rand/v2"
 
-type generateCatalogSourcedName struct {
+type catalogSourcedNameGenerator struct {
 	namesByGender map[Gender][]string
 	surnames      []string
 }
 
-func NewGenerateCatalogSourcedName(surnames, nonGenderNames, femaleFirstNames, maleFirstNames []string) GenerateName {
-	return &generateCatalogSourcedName{
+func NewCatalogSourcedNameGenerator(surnames, nonGenderNames, femaleFirstNames, maleFirstNames []string) NameGenerator {
+	return &catalogSourcedNameGenerator{
 		namesByGender: map[Gender][]string{
 			GenderUnspecified: nonGenderNames,
 			GenderFemale:      femaleFirstNames,
@@ -18,7 +18,7 @@ func NewGenerateCatalogSourcedName(surnames, nonGenderNames, femaleFirstNames, m
 	}
 }
 
-func (c generateCatalogSourcedName) Execute(gender Gender) (firstName, surname string) {
+func (c catalogSourcedNameGenerator) Generate(gender Gender) (firstName, surname string) {
 	if !gender.IsAGender() {
 		gender = pickRandomItem(GenderValues())
 	}

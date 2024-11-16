@@ -3,21 +3,21 @@
 package generator
 
 type NpcGeneratorBuilder struct {
-	generateName GenerateName
+	nameGenerator NameGenerator
 }
 
 func NewNpcGeneratorBuilder() *NpcGeneratorBuilder {
 	return &NpcGeneratorBuilder{}
 }
 
-func (b *NpcGeneratorBuilder) GenerateName(generateName GenerateName) *NpcGeneratorBuilder {
-	b.generateName = generateName
+func (b *NpcGeneratorBuilder) NameGenerator(nameGenerator NameGenerator) *NpcGeneratorBuilder {
+	b.nameGenerator = nameGenerator
 	return b
 }
 
 func (b *NpcGeneratorBuilder) Build() (*NpcGenerator, error) {
 	r := &NpcGenerator{
-		generateName: b.generateName,
+		nameGenerator: b.nameGenerator,
 	}
 	ret_init0 := r.init()
 	return r, ret_init0

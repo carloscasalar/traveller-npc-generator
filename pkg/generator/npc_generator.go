@@ -2,7 +2,7 @@ package generator
 
 //go:generate gonstructor -type=NpcGenerator -constructorTypes=builder -init=init -propagateInitFuncReturns -output=npc_generator_auto.go
 type NpcGenerator struct {
-	generateName GenerateName
+	nameGenerator NameGenerator
 }
 
 func (g *NpcGenerator) Generate(request GenerateCharacterRequest) (*Character, error) {
@@ -10,8 +10,8 @@ func (g *NpcGenerator) Generate(request GenerateCharacterRequest) (*Character, e
 		return nil, err
 	}
 
-	firstName, surname := g.generateName.Execute(request.gender)
-	
+	firstName, surname := g.nameGenerator.Generate(request.gender)
+
 	return &Character{
 		FirstName:  firstName,
 		Surname:    surname,
@@ -22,13 +22,13 @@ func (g *NpcGenerator) Generate(request GenerateCharacterRequest) (*Character, e
 }
 
 func (g *NpcGenerator) init() error {
-	if g.generateName != nil {
+	if g.nameGenerator != nil {
 		return nil
 	}
-	generateName, err := NewDefaultGenerateName()
+	nameGenerator, err := NewDefaultNameGenerator()
 	if err != nil {
 		return err
 	}
-	g.generateName = generateName
+	g.nameGenerator = nameGenerator
 	return nil
 }

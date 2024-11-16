@@ -8,7 +8,7 @@ import (
 	"runtime"
 )
 
-func NewDefaultGenerateName() (GenerateName, error) {
+func NewDefaultNameGenerator() (NameGenerator, error) {
 	const relativeNamesFilePath = "../../assets/names.yml"
 	absoluteNamesFilePath := absolutePath(relativeNamesFilePath)
 	namesConfigFile, err := os.ReadFile(absoluteNamesFilePath)
@@ -24,7 +24,7 @@ func NewDefaultGenerateName() (GenerateName, error) {
 		return nil, fmt.Errorf("error parsing names config file at %v: %v\n", absoluteNamesFilePath, err)
 	}
 
-	return NewGenerateCatalogSourcedName(config.Surnames, config.NonGenderedNames, config.FemaNames, config.MaleNames), nil
+	return NewCatalogSourcedNameGenerator(config.Surnames, config.NonGenderedNames, config.FemaNames, config.MaleNames), nil
 }
 
 func absolutePath(relativeNamesFilePath string) string {
