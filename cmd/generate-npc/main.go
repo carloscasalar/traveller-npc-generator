@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"github.com/carloscasalar/traveller-npc-generator/internal/npc"
 	"github.com/carloscasalar/traveller-npc-generator/internal/ui"
+	"github.com/carloscasalar/traveller-npc-generator/pkg/generator"
 	"os"
 )
 
 func main() {
 	opts := readOptionsOrFail()
-	nameGenerator := spawnNameGeneratorOrFail()
+	generateName := spawnGenerateNameOrFail()
 	debugEnabled := opts.EnableDebug
 
 	if debugEnabled {
@@ -20,7 +21,7 @@ func main() {
 	experience := readExperience(opts)
 	role := readRole(opts)
 	gender := readGender(opts)
-	firstName, surname := nameGenerator.Generate(gender)
+	firstName, surname := generateName.Execute(gender)
 	fullName := fmt.Sprintf("%v %v", firstName, surname)
 	characteristic := role.RandomCharacteristic(category)
 
@@ -67,12 +68,26 @@ func toUICharacteristics(characteristic map[npc.Characteristic]int) map[ui.Chara
 	}
 }
 
+func spawnGenerateNameOrFail() generator.GenerateName {
+	generateName, err := generator.NewDefaultGenerateName()
+	if err != nil {
+		printError(err)
+		os.Exit(1)
+	}
+
+	return generateName
+}
+
 func prompt(value string) {
 	fmt.Println(ui.NewPromptRenderer(value).Render())
 }
 
 func printErrorf(template string, a ...interface{}) {
 	_, _ = fmt.Fprintf(os.Stderr, template, a...)
+}
+
+func printError(err error) {
+	_, _ = fmt.Fprintln(os.Stderr, err.Error())
 }
 
 func titleValue[T any](title string, value T) {

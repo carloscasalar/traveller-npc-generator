@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/carloscasalar/traveller-npc-generator/internal/name"
 	"github.com/carloscasalar/traveller-npc-generator/internal/npc"
+	"github.com/carloscasalar/traveller-npc-generator/pkg/generator"
 	"github.com/jessevdk/go-flags"
 	"os"
 )
@@ -42,14 +42,14 @@ func readRole(opts CommandOptions) npc.Role {
 	return role
 }
 
-func readGender(opts CommandOptions) name.Gender {
+func readGender(opts CommandOptions) generator.Gender {
 	switch opts.Gender {
 	case "female":
-		return name.GenderFemale
+		return generator.GenderFemale
 	case "male":
-		return name.GenderMale
+		return generator.GenderMale
 	default:
-		return name.GenderUnspecified
+		return generator.GenderUnspecified
 	}
 }
 
