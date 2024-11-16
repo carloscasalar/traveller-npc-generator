@@ -10,7 +10,11 @@ func (g *NpcGenerator) Generate(request GenerateCharacterRequest) (*Character, e
 		return nil, err
 	}
 
+	firstName, surname := g.generateName.Execute(request.gender)
+	
 	return &Character{
+		FirstName:  firstName,
+		Surname:    surname,
 		Role:       request.role,
 		Category:   request.category,
 		Experience: request.experience,

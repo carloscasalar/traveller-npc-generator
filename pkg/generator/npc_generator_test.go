@@ -24,6 +24,23 @@ func Test_resulting_character_should_have_same_category_experience_and_role_as_r
 	assert.Equal(t, generator.RoleDiplomat, character.Role)
 }
 
+func Test_should_generate_an_npc_with_a_name(t *testing.T) {
+	request := generator.NewGenerateCharacterRequestBuilder().
+		Category(generator.CategoryExceptional).
+		Experience(generator.ExperienceRecruit).
+		Role(generator.RoleDiplomat).
+		Build()
+
+	npcGenerator, _ := generator.NewNpcGeneratorBuilder().
+		GenerateName(NewFixedGenerateName("John", "Doe")).
+		Build()
+	character, err := npcGenerator.Generate(*request)
+
+	require.NoError(t, err)
+	assert.Equal(t, "John", character.FirstName)
+	assert.Equal(t, "Doe", character.Surname)
+}
+
 func Test_when_category_is_invalid_it_returns_error(t *testing.T) {
 	nonValidCategory := generator.CitizenCategory(99)
 	request := generator.NewGenerateCharacterRequestBuilder().
@@ -78,4 +95,20 @@ func Test_when_gender_is_invalid_it_returns_error(t *testing.T) {
 
 func newGenerator() (*generator.NpcGenerator, error) {
 	return generator.NewNpcGeneratorBuilder().Build()
+}
+
+type FixedGenerateName struct {
+	firstName string
+	surname   string
+}
+
+func NewFixedGenerateName(firstName, surname string) *FixedGenerateName {
+	return &FixedGenerateName{
+		firstName: firstName,
+		surname:   surname,
+	}
+}
+
+func (g FixedGenerateName) Execute(generator.Gender) (string, string) {
+	return g.firstName, g.surname
 }
