@@ -1,10 +1,8 @@
 package generator
 
+//go:generate gonstructor -type=NpcGenerator -constructorTypes=builder -init=init -propagateInitFuncReturns -output=npc_generator_auto.go
 type NpcGenerator struct {
-}
-
-func NewNpcGenerator() (*NpcGenerator, error) {
-	return &NpcGenerator{}, nil
+	generateName GenerateName
 }
 
 func (g *NpcGenerator) Generate(request GenerateCharacterRequest) (*Character, error) {
@@ -17,4 +15,16 @@ func (g *NpcGenerator) Generate(request GenerateCharacterRequest) (*Character, e
 		Category:   request.category,
 		Experience: request.experience,
 	}, nil
+}
+
+func (g *NpcGenerator) init() error {
+	if g.generateName != nil {
+		return nil
+	}
+	generateName, err := NewDefaultGenerateName()
+	if err != nil {
+		return err
+	}
+	g.generateName = generateName
+	return nil
 }
