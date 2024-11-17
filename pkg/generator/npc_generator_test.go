@@ -1,6 +1,7 @@
 package generator_test
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/require"
 	"testing"
 
@@ -56,6 +57,34 @@ func Test_should_generate_an_npc_with_skills(t *testing.T) {
 
 	require.NoError(t, err)
 	assert.NotEmpty(t, character.Skills)
+}
+
+func Test_number_of_skills_generated_for(t *testing.T) {
+	allRoles := generator.RoleValues()
+	expectedNumberOfSkillsByExperience := map[generator.Experience]int{
+		generator.ExperienceRecruit:      4,
+		generator.ExperienceRookie:       6,
+		generator.ExperienceIntermediate: 7,
+		generator.ExperienceRegular:      9,
+		generator.ExperienceVeteran:      10,
+		generator.ExperienceElite:        12,
+	}
+	for _, role := range allRoles {
+		for _, experience := range generator.ExperienceValues() {
+			t.Run(fmt.Sprintf("a %v %v should be %d", experience, role, expectedNumberOfSkillsByExperience[experience]), func(t *testing.T) {
+				request := generator.NewGenerateCharacterRequestBuilder().
+					Experience(experience).
+					Role(role).
+					Build()
+
+				npcGenerator, _ := newGenerator()
+				character, err := npcGenerator.Generate(*request)
+
+				require.NoError(t, err)
+				assert.Len(t, character.Skills, expectedNumberOfSkillsByExperience[experience])
+			})
+		}
+	}
 }
 
 func Test_when_category_is_invalid_it_returns_error(t *testing.T) {
