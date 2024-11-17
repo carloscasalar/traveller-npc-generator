@@ -11,6 +11,9 @@ func (g *NpcGenerator) Generate(request GenerateCharacterRequest) (*Character, e
 	}
 
 	firstName, surname := g.nameGenerator.Generate(request.gender)
+	role := request.role.toNpcRole()
+	experience := request.experience.toNpcExperience()
+	skills := role.Skills(experience)
 
 	return &Character{
 		FirstName:  firstName,
@@ -18,6 +21,7 @@ func (g *NpcGenerator) Generate(request GenerateCharacterRequest) (*Character, e
 		Role:       request.role,
 		Category:   request.category,
 		Experience: request.experience,
+		Skills:     skills,
 	}, nil
 }
 

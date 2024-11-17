@@ -6,5 +6,5 @@ type Character struct {
 	Role       Role
 	Category   CitizenCategory
 	Experience Experience
-	Skills     map[string]int
+	Skills     []string
 }

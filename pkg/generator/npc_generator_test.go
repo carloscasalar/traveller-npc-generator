@@ -48,6 +48,16 @@ func Test_should_generate_an_npc_name_even_when_no_name_generator_is_provided(t 
 	assert.NotEmpty(t, character.Surname)
 }
 
+func Test_should_generate_an_npc_with_skills(t *testing.T) {
+	request := exceptionalRecruitDiplomatRequest()
+
+	npcGenerator, _ := newGenerator()
+	character, err := npcGenerator.Generate(*request)
+
+	require.NoError(t, err)
+	assert.NotEmpty(t, character.Skills)
+}
+
 func Test_when_category_is_invalid_it_returns_error(t *testing.T) {
 	nonValidCategory := generator.CitizenCategory(99)
 	request := generator.NewGenerateCharacterRequestBuilder().
