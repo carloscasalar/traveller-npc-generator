@@ -25,11 +25,7 @@ func Test_resulting_character_should_have_same_category_experience_and_role_as_r
 }
 
 func Test_should_generate_an_npc_with_a_name(t *testing.T) {
-	request := generator.NewGenerateCharacterRequestBuilder().
-		Category(generator.CategoryExceptional).
-		Experience(generator.ExperienceRecruit).
-		Role(generator.RoleDiplomat).
-		Build()
+	request := exceptionalRecruitDiplomatRequest()
 
 	npcGenerator, _ := generator.NewNpcGeneratorBuilder().
 		NameGenerator(NewFixedGenerateName("John", "Doe")).
@@ -39,6 +35,17 @@ func Test_should_generate_an_npc_with_a_name(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, "John", character.FirstName)
 	assert.Equal(t, "Doe", character.Surname)
+}
+
+func Test_should_generate_an_npc_name_even_when_no_name_generator_is_provided(t *testing.T) {
+	request := exceptionalRecruitDiplomatRequest()
+
+	npcGenerator, _ := newGenerator()
+	character, err := npcGenerator.Generate(*request)
+
+	require.NoError(t, err)
+	assert.NotEmpty(t, character.FirstName)
+	assert.NotEmpty(t, character.Surname)
 }
 
 func Test_when_category_is_invalid_it_returns_error(t *testing.T) {
@@ -91,6 +98,14 @@ func Test_when_gender_is_invalid_it_returns_error(t *testing.T) {
 
 	assert.Error(t, err)
 	assert.Equal(t, "invalid gender", err.Error())
+}
+
+func exceptionalRecruitDiplomatRequest() *generator.GenerateCharacterRequest {
+	return generator.NewGenerateCharacterRequestBuilder().
+		Category(generator.CategoryExceptional).
+		Experience(generator.ExperienceRecruit).
+		Role(generator.RoleDiplomat).
+		Build()
 }
 
 func newGenerator() (*generator.NpcGenerator, error) {
