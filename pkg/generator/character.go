@@ -1,10 +1,11 @@
 package generator
 
 type Character struct {
-	FirstName  string
-	Surname    string
-	Role       Role
-	Category   CitizenCategory
-	Experience Experience
-	Skills     []string
+	FirstName       string
+	Surname         string
+	Role            Role
+	Category        CitizenCategory
+	Experience      Experience
+	Skills          []string
+	Characteristics map[Characteristic]int
 }

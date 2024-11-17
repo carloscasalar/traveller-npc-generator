@@ -3,6 +3,7 @@ package generator_test
 import (
 	"fmt"
 	"github.com/stretchr/testify/require"
+	"slices"
 	"testing"
 
 	"github.com/carloscasalar/traveller-npc-generator/pkg/generator"
@@ -87,6 +88,30 @@ func Test_number_of_skills_generated_for(t *testing.T) {
 	}
 }
 
+func Test_characteristic_array_for_citizen_category(t *testing.T) {
+	allCategories := generator.CitizenCategoryValues()
+	expectedCharacteristicArray := map[generator.CitizenCategory][]int{
+		generator.CategoryBelowAverage: {8, 7, 6, 6, 5, 4},
+		generator.CategoryAverage:      {9, 8, 7, 7, 6, 5},
+		generator.CategoryAboveAverage: {10, 9, 8, 8, 7, 6},
+		generator.CategoryExceptional:  {11, 10, 9, 9, 8, 7},
+	}
+
+	for _, category := range allCategories {
+		t.Run(fmt.Sprintf("%v should be %v", category, expectedCharacteristicArray[category]), func(t *testing.T) {
+			request := generator.NewGenerateCharacterRequestBuilder().
+				Category(category).
+				Build()
+
+			npcGenerator, _ := newGenerator()
+			character, err := npcGenerator.Generate(*request)
+
+			require.NoError(t, err)
+			assert.Equal(t, expectedCharacteristicArray[category], getSortedArray(character.Characteristics))
+		})
+	}
+}
+
 func Test_when_category_is_invalid_it_returns_error(t *testing.T) {
 	nonValidCategory := generator.CitizenCategory(99)
 	request := generator.NewGenerateCharacterRequestBuilder().
@@ -137,6 +162,20 @@ func Test_when_gender_is_invalid_it_returns_error(t *testing.T) {
 
 	assert.Error(t, err)
 	assert.Equal(t, "invalid gender", err.Error())
+}
+
+func getSortedArray(characteristics map[generator.Characteristic]int) []int {
+	charArray := []int{
+		characteristics[generator.STR],
+		characteristics[generator.DEX],
+		characteristics[generator.END],
+		characteristics[generator.INT],
+		characteristics[generator.EDU],
+		characteristics[generator.SOC],
+	}
+	slices.Sort(charArray)
+	slices.Reverse(charArray)
+	return charArray
 }
 
 func exceptionalRecruitDiplomatRequest() *generator.GenerateCharacterRequest {
