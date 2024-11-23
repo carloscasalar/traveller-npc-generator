@@ -83,7 +83,15 @@ Help Options:
 <img src="demo/demo.gif" alt="Demo" />
 
 ## Generator library
-You can also use this project as a library in your Go applications. Here are some examples:
+You can also use this project as a library in your Go applications. 
+
+You can install it by running the following command:
+
+```bash
+go get github.com/carloscasalar/traveller-npc-generator
+```
+
+Here are some examples:
 
 ### Example 1: Generate a Character
 
