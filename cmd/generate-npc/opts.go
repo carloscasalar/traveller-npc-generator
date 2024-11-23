@@ -1,8 +1,7 @@
 package main
 
 import (
-	"github.com/carloscasalar/traveller-npc-generator/internal/name"
-	"github.com/carloscasalar/traveller-npc-generator/internal/npc"
+	"github.com/carloscasalar/traveller-npc-generator/pkg/generator"
 	"github.com/jessevdk/go-flags"
 	"os"
 )
@@ -15,8 +14,8 @@ type CommandOptions struct {
 	EnableDebug     bool   `short:"d" long:"debug" description:"Enable debug mode"`
 }
 
-func readCitizenCategory(opts CommandOptions) npc.CitizenCategory {
-	category := npc.CitizenCategory(opts.CitizenCategory)
+func readCitizenCategory(opts CommandOptions) generator.CitizenCategory {
+	category := generator.CitizenCategory(opts.CitizenCategory)
 	if !category.IsACitizenCategory() {
 		printErrorf("unknown citizen category %v\n", opts.CitizenCategory)
 		os.Exit(1)
@@ -24,17 +23,17 @@ func readCitizenCategory(opts CommandOptions) npc.CitizenCategory {
 	return category
 }
 
-func readExperience(opts CommandOptions) npc.Experience {
-	if !npc.Experience(opts.Experience).IsAExperience() {
+func readExperience(opts CommandOptions) generator.Experience {
+	if !generator.Experience(opts.Experience).IsAExperience() {
 		printErrorf("unknown experience %v\n", opts.Experience)
 		os.Exit(1)
 	}
 
-	return npc.Experience(opts.Experience)
+	return generator.Experience(opts.Experience)
 }
 
-func readRole(opts CommandOptions) npc.Role {
-	role, err := npc.RoleString(opts.CrewRole)
+func readRole(opts CommandOptions) generator.Role {
+	role, err := generator.RoleString(opts.CrewRole)
 	if err != nil {
 		printErrorf("unknown role %v\n", opts.CrewRole)
 		os.Exit(1)
@@ -42,14 +41,14 @@ func readRole(opts CommandOptions) npc.Role {
 	return role
 }
 
-func readGender(opts CommandOptions) name.Gender {
+func readGender(opts CommandOptions) generator.Gender {
 	switch opts.Gender {
 	case "female":
-		return name.GenderFemale
+		return generator.GenderFemale
 	case "male":
-		return name.GenderMale
+		return generator.GenderMale
 	default:
-		return name.GenderUnspecified
+		return generator.GenderUnspecified
 	}
 }
 

@@ -1,4 +1,4 @@
-package name
+package generator
 
 //go:generate enumer -type=Gender -output=gender_auto.go -trimprefix=Gender
 type Gender int
