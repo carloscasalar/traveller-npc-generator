@@ -81,3 +81,95 @@ Help Options:
 | -h     | --help       | Show the help message                                                                                                                                           |             |
 
 <img src="demo/demo.gif" alt="Demo" />
+
+## Generator library
+You can also use this project as a library in your Go applications. Here are some examples:
+
+### Example 1: Generate a Character
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/carloscasalar/traveller-npc-generator/pkg/generator"
+	"os"
+)
+
+func main() {
+	npcGenerator, err := generator.NewNpcGeneratorBuilder().Build()
+	if err != nil {
+		fmt.Printf("Error creating NPC: %v", err)
+		os.Exit(1)
+	}
+
+	request := generator.NewGenerateCharacterRequestBuilder().
+		Category(generator.CategoryAboveAverage).
+		Experience(generator.ExperienceRookie).
+		Role(generator.RolePilot).
+		Gender(generator.GenderUnspecified).
+		Build()
+
+	character, err := npcGenerator.Generate(*request)
+	if err != nil {
+		fmt.Printf("Error generating character: %v", err)
+		os.Exit(1)
+	}
+
+	fmt.Println("Generated Character:", character)
+}
+```
+
+### Example 2: Generate a Character with custom name generator
+The library uses a very simple name generator. You can provide your own name generator by implementing the `NameGenerator` interface.
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/carloscasalar/traveller-npc-generator/pkg/generator"
+	"os"
+)
+
+func main() {
+	npcGenerator, err := generator.NewNpcGeneratorBuilder().
+		NameGenerator(new(CustomNameGenerator)).
+		Build()
+	if err != nil {
+		fmt.Printf("Error creating NPC: %v", err)
+		os.Exit(1)
+	}
+
+	for _, gender := range generator.GenderValues() {
+		request := generator.NewGenerateCharacterRequestBuilder().
+			Category(generator.CategoryExceptional).
+			Experience(generator.ExperienceVeteran).
+			Role(generator.RoleLeader).
+			Gender(gender).
+			Build()
+
+		character, err := npcGenerator.Generate(*request)
+		if err != nil {
+			fmt.Printf("Error generating character: %v", err)
+			os.Exit(1)
+		}
+
+		fmt.Printf("Generated Character: %v\n", character)
+	}
+}
+
+type CustomNameGenerator struct {
+}
+
+func (c CustomNameGenerator) Generate(gender generator.Gender) (firstName, surname string) {
+	switch gender {
+	case generator.GenderMale:
+		return "Dwayne", "Hicks"
+	case generator.GenderFemale:
+		return "Hellen", "Ripley"
+	default:
+		return "Forge", "Jynxori"
+	}
+}
+```
