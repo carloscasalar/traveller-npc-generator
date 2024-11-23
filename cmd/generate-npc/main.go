@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"github.com/carloscasalar/traveller-npc-generator/internal/npc"
 	"github.com/carloscasalar/traveller-npc-generator/internal/ui"
 	"github.com/carloscasalar/traveller-npc-generator/pkg/generator"
 	"os"
@@ -10,7 +9,7 @@ import (
 
 func main() {
 	opts := readOptionsOrFail()
-	nameGenerator := spawnGenerateNameOrFail()
+	npcGenerator := spawnNpcGeneratorOrFail()
 	debugEnabled := opts.EnableDebug
 
 	if debugEnabled {
@@ -21,21 +20,30 @@ func main() {
 	experience := readExperience(opts)
 	role := readRole(opts)
 	gender := readGender(opts)
-	firstName, surname := nameGenerator.Generate(gender)
-	fullName := fmt.Sprintf("%v %v", firstName, surname)
-	characteristic := role.RandomCharacteristic(category)
+	newCharacterRequest := generator.NewGenerateCharacterRequestBuilder().
+		Category(category).
+		Experience(experience).
+		Role(role).
+		Gender(gender).
+		Build()
+
+	character, err := npcGenerator.Generate(*newCharacterRequest)
+	if err != nil {
+		printError(err)
+		os.Exit(1)
+	}
 
 	if debugEnabled {
-		printGeneratedValues(fullName, role, experience, characteristic)
+		printGeneratedValues(*character)
 	}
 
 	sheet := ui.NewCharacterSheetBuilder().
-		FullName(fullName).
+		FullName(character.FullName()).
 		Role(role.String()).
 		CitizenCategory(category.String()).
 		Experience(experience.String()).
-		Skills(role.Skills(experience)).
-		Characteristics(toUICharacteristics(characteristic)).
+		Skills(character.Skills()).
+		Characteristics(toUICharacteristics(character.Characteristics())).
 		Build()
 	printSheet(sheet)
 }
@@ -47,24 +55,24 @@ func printOptionsRead(opts CommandOptions) {
 	titleValue("CrewRole: ", opts.CrewRole)
 }
 
-func printGeneratedValues(fullName string, role npc.Role, experience npc.Experience, characteristic map[npc.Characteristic]int) {
+func printGeneratedValues(character generator.Character) {
 	prompt("Generated ----------")
-	titleValue("Name: ", fullName)
-	titleValue("Role: ", role.String())
-	titleValue("Experience: ", experience.String())
-	titleValue("Skills: ", role.Skills(experience))
-	titleValue("Characteristics: ", characteristic)
+	titleValue("Name: ", character.FullName())
+	titleValue("Role: ", character.Role().String())
+	titleValue("Experience: ", character.Experience().String())
+	titleValue("Skills: ", character.Skills())
+	titleValue("Characteristics: ", character.Characteristics())
 	prompt("--------------------")
 }
 
-func toUICharacteristics(characteristic map[npc.Characteristic]int) map[ui.Characteristic]int {
+func toUICharacteristics(characteristic map[generator.Characteristic]int) map[ui.Characteristic]int {
 	return map[ui.Characteristic]int{
-		ui.STR: characteristic[npc.STR],
-		ui.DEX: characteristic[npc.DEX],
-		ui.END: characteristic[npc.END],
-		ui.INT: characteristic[npc.INT],
-		ui.EDU: characteristic[npc.EDU],
-		ui.SOC: characteristic[npc.SOC],
+		ui.STR: characteristic[generator.STR],
+		ui.DEX: characteristic[generator.DEX],
+		ui.END: characteristic[generator.END],
+		ui.INT: characteristic[generator.INT],
+		ui.EDU: characteristic[generator.EDU],
+		ui.SOC: characteristic[generator.SOC],
 	}
 }
 
@@ -76,6 +84,16 @@ func spawnGenerateNameOrFail() generator.NameGenerator {
 	}
 
 	return nameGenerator
+}
+
+func spawnNpcGeneratorOrFail() *generator.NpcGenerator {
+	nameGenerator := spawnGenerateNameOrFail()
+	npcGenerator, err := generator.NewNpcGeneratorBuilder().NameGenerator(nameGenerator).Build()
+	if err != nil {
+		printError(err)
+		os.Exit(1)
+	}
+	return npcGenerator
 }
 
 func prompt(value string) {

@@ -1,6 +1,9 @@
 package generator
 
-import "github.com/carloscasalar/traveller-npc-generator/internal/npc"
+import (
+	"fmt"
+	"github.com/carloscasalar/traveller-npc-generator/internal/npc"
+)
 
 type Character struct {
 	firstName       string
@@ -18,6 +21,10 @@ func (c Character) FirstName() string {
 
 func (c Character) Surname() string {
 	return c.surname
+}
+
+func (c Character) FullName() string {
+	return fmt.Sprintf("%v %v", c.firstName, c.surname)
 }
 
 func (c Character) Role() Role {
