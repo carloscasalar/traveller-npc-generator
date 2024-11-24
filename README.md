@@ -181,3 +181,57 @@ func (c CustomNameGenerator) Generate(gender generator.Gender) (firstName, surna
 	}
 }
 ```
+
+### Example 3: Generate a Character with catalog of surnames and names based name generator
+This library comes with a name generator that uses a catalog of names and surnames. You can use it by creating a new instance of `CatalogNameGenerator`.
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/carloscasalar/traveller-npc-generator/pkg/generator"
+	"math/rand/v2"
+	"os"
+)
+
+func main() {
+	femaleNames := []string{"Hellen", "Jane", "Alice"}
+	maleNames := []string{"Dwayne", "John", "Bob"}
+	nonBinaryNames := []string{"Forge", "Jynxori", "Alex"}
+	surnames := []string{"Hicks", "Doe", "Smith"}
+
+	catalogNameGenerator := generator.NewCatalogSourcedNameGenerator(surnames, nonBinaryNames, femaleNames, maleNames)
+	npcGenerator, err := generator.NewNpcGeneratorBuilder().NameGenerator(catalogNameGenerator).Build()
+	if err != nil {
+		fmt.Printf("Error creating NPC generator: %v", err)
+		os.Exit(1)
+	}
+
+	for _, gender := range generator.GenderValues() {
+		category := pickRandomItem(generator.CitizenCategoryValues())
+		experience := pickRandomItem(generator.ExperienceValues())
+		role := pickRandomItem(generator.RoleValues())
+
+		request := generator.NewGenerateCharacterRequestBuilder().
+			Category(category).
+			Experience(experience).
+			Role(role).
+			Gender(gender).
+			Build()
+
+		character, err := npcGenerator.Generate(*request)
+		if err != nil {
+			fmt.Printf("Error generating character: %v", err)
+			os.Exit(1)
+		}
+
+		fmt.Printf("Generated character: %v\n", character)
+	}
+}
+
+func pickRandomItem[T any](items []T) T {
+	itemIndex := rand.IntN(len(items) - 1)
+	return items[itemIndex]
+}
+```

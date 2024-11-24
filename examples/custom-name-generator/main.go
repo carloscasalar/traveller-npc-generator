@@ -11,7 +11,7 @@ func main() {
 		NameGenerator(new(CustomNameGenerator)).
 		Build()
 	if err != nil {
-		fmt.Printf("Error creating NPC: %v", err)
+		fmt.Printf("Error creating NPC generator: %v", err)
 		os.Exit(1)
 	}
 
