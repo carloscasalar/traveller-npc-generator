@@ -53,3 +53,9 @@ func (c Character) Characteristics() map[Characteristic]int {
 		SOC: c.characteristics[npc.SOC],
 	}
 }
+
+// String returns a string representation of the character. It is prone to change so you should not rely on it.
+func (c Character) String() string {
+	return fmt.Sprintf("Character{firstName: %v, surname: %v, role: %v, category: %v, experience: %v, skills: %v, characteristics: %v}",
+		c.firstName, c.surname, c.role, c.category, c.experience, c.skills, c.characteristics)
+}

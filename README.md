@@ -81,3 +81,157 @@ Help Options:
 | -h     | --help       | Show the help message                                                                                                                                           |             |
 
 <img src="demo/demo.gif" alt="Demo" />
+
+## Generator library
+You can also use this project as a library in your Go applications. 
+
+You can install it by running the following command:
+
+```bash
+go get github.com/carloscasalar/traveller-npc-generator
+```
+
+Here are some examples:
+
+### Example 1: Generate a Character
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/carloscasalar/traveller-npc-generator/pkg/generator"
+	"os"
+)
+
+func main() {
+	npcGenerator, err := generator.NewNpcGeneratorBuilder().Build()
+	if err != nil {
+		fmt.Printf("Error creating NPC: %v", err)
+		os.Exit(1)
+	}
+
+	request := generator.NewGenerateCharacterRequestBuilder().
+		Category(generator.CategoryAboveAverage).
+		Experience(generator.ExperienceRookie).
+		Role(generator.RolePilot).
+		Gender(generator.GenderUnspecified).
+		Build()
+
+	character, err := npcGenerator.Generate(*request)
+	if err != nil {
+		fmt.Printf("Error generating character: %v", err)
+		os.Exit(1)
+	}
+
+	fmt.Println("Generated Character:", character)
+}
+```
+
+### Example 2: Generate a Character with custom name generator
+The library uses a very simple name generator. You can provide your own name generator by implementing the `NameGenerator` interface.
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/carloscasalar/traveller-npc-generator/pkg/generator"
+	"os"
+)
+
+func main() {
+	npcGenerator, err := generator.NewNpcGeneratorBuilder().
+		NameGenerator(new(CustomNameGenerator)).
+		Build()
+	if err != nil {
+		fmt.Printf("Error creating NPC: %v", err)
+		os.Exit(1)
+	}
+
+	for _, gender := range generator.GenderValues() {
+		request := generator.NewGenerateCharacterRequestBuilder().
+			Category(generator.CategoryExceptional).
+			Experience(generator.ExperienceVeteran).
+			Role(generator.RoleLeader).
+			Gender(gender).
+			Build()
+
+		character, err := npcGenerator.Generate(*request)
+		if err != nil {
+			fmt.Printf("Error generating character: %v", err)
+			os.Exit(1)
+		}
+
+		fmt.Printf("Generated Character: %v\n", character)
+	}
+}
+
+type CustomNameGenerator struct {
+}
+
+func (c CustomNameGenerator) Generate(gender generator.Gender) (firstName, surname string) {
+	switch gender {
+	case generator.GenderMale:
+		return "Dwayne", "Hicks"
+	case generator.GenderFemale:
+		return "Hellen", "Ripley"
+	default:
+		return "Forge", "Jynxori"
+	}
+}
+```
+
+### Example 3: Generate a Character with catalog of surnames and names based name generator
+This library comes with a name generator that uses a catalog of names and surnames. You can use it by creating a new instance of `CatalogNameGenerator`.
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/carloscasalar/traveller-npc-generator/pkg/generator"
+	"math/rand/v2"
+	"os"
+)
+
+func main() {
+	femaleNames := []string{"Hellen", "Jane", "Alice"}
+	maleNames := []string{"Dwayne", "John", "Bob"}
+	nonBinaryNames := []string{"Forge", "Jynxori", "Alex"}
+	surnames := []string{"Hicks", "Doe", "Smith"}
+
+	catalogNameGenerator := generator.NewCatalogSourcedNameGenerator(surnames, nonBinaryNames, femaleNames, maleNames)
+	npcGenerator, err := generator.NewNpcGeneratorBuilder().NameGenerator(catalogNameGenerator).Build()
+	if err != nil {
+		fmt.Printf("Error creating NPC generator: %v", err)
+		os.Exit(1)
+	}
+
+	for _, gender := range generator.GenderValues() {
+		category := pickRandomItem(generator.CitizenCategoryValues())
+		experience := pickRandomItem(generator.ExperienceValues())
+		role := pickRandomItem(generator.RoleValues())
+
+		request := generator.NewGenerateCharacterRequestBuilder().
+			Category(category).
+			Experience(experience).
+			Role(role).
+			Gender(gender).
+			Build()
+
+		character, err := npcGenerator.Generate(*request)
+		if err != nil {
+			fmt.Printf("Error generating character: %v", err)
+			os.Exit(1)
+		}
+
+		fmt.Printf("Generated character: %v\n", character)
+	}
+}
+
+func pickRandomItem[T any](items []T) T {
+	itemIndex := rand.IntN(len(items) - 1)
+	return items[itemIndex]
+}
+```
