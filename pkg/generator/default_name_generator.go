@@ -2,36 +2,20 @@ package generator
 
 import (
 	"fmt"
+	"github.com/carloscasalar/traveller-npc-generator/assets"
 	"gopkg.in/yaml.v3"
-	"os"
-	"path/filepath"
-	"runtime"
 )
 
 func NewDefaultNameGenerator() (NameGenerator, error) {
-	const relativeNamesFilePath = "../../assets/names.yml"
-	absoluteNamesFilePath := absolutePath(relativeNamesFilePath)
-	namesConfigFile, err := os.ReadFile(absoluteNamesFilePath)
-	if err != nil {
-		return nil, fmt.Errorf("error reading names config file at %v: %v\n", absoluteNamesFilePath, err)
-	}
 	var config nameConfig
-	err = yaml.Unmarshal(namesConfigFile, &config)
-	if err != nil {
-		return nil, fmt.Errorf("error reading names config file at %v: %v\n", absoluteNamesFilePath, err)
+	if err := yaml.Unmarshal(assets.EmbedNames, &config); err != nil {
+		return nil, fmt.Errorf("error unmarshalling names config file: %v", err)
 	}
 	if err := config.Validate(); err != nil {
-		return nil, fmt.Errorf("error parsing names config file at %v: %v\n", absoluteNamesFilePath, err)
+		return nil, fmt.Errorf("error parsing names config file: %v", err)
 	}
 
 	return NewCatalogSourcedNameGenerator(config.Surnames, config.NonGenderedNames, config.FemaNames, config.MaleNames), nil
-}
-
-func absolutePath(relativeNamesFilePath string) string {
-	_, currentFilePath, _, _ := runtime.Caller(0)
-	currentDir := filepath.Dir(currentFilePath)
-	absoluteNamesFilePath := filepath.Join(currentDir, relativeNamesFilePath)
-	return absoluteNamesFilePath
 }
 
 type nameConfig struct {
