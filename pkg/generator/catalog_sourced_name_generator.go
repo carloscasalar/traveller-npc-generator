@@ -8,7 +8,7 @@ type catalogSourcedNameGenerator struct {
 }
 
 // NewCatalogSourcedNameGenerator creates a new NameGenerator that generates names from a catalog of names by gender and a list of surnames.
-func NewCatalogSourcedNameGenerator(surnames, nonGenderNames, femaleFirstNames, maleFirstNames []string) NameGenerator {
+func NewCatalogSourcedNameGenerator(surnames, nonGenderNames, femaleFirstNames, maleFirstNames []string) (NameGenerator, error) {
 	return &catalogSourcedNameGenerator{
 		namesByGender: map[Gender][]string{
 			GenderUnspecified: nonGenderNames,
@@ -16,7 +16,7 @@ func NewCatalogSourcedNameGenerator(surnames, nonGenderNames, femaleFirstNames, 
 			GenderMale:        maleFirstNames,
 		},
 		surnames: surnames,
-	}
+	}, nil
 }
 
 func (c catalogSourcedNameGenerator) Generate(gender Gender) (firstName, surname string) {

@@ -13,7 +13,7 @@ func TestCatalogSourcedGenerator_Generate(t *testing.T) {
 	femaleFirstNames := []string{"Female Name 1", "Female Name 2", "Female Name 3"}
 	maleFirstNames := []string{"Male Name 1", "Male Name 2", "Male Name 3"}
 
-	nameGenerator := generator.NewCatalogSourcedNameGenerator(surnames, nonGenderNames, femaleFirstNames, maleFirstNames)
+	nameGenerator, _ := generator.NewCatalogSourcedNameGenerator(surnames, nonGenderNames, femaleFirstNames, maleFirstNames)
 
 	tests := []struct {
 		gender                 generator.Gender
