@@ -11,11 +11,8 @@ func NewDefaultNameGenerator() (NameGenerator, error) {
 	if err := yaml.Unmarshal(assets.EmbedNames, &config); err != nil {
 		return nil, fmt.Errorf("error unmarshalling names config file: %v", err)
 	}
-	if err := config.Validate(); err != nil {
-		return nil, fmt.Errorf("error parsing names config file: %v", err)
-	}
 
-	return NewCatalogSourcedNameGenerator(config.Surnames, config.NonGenderedNames, config.FemaNames, config.MaleNames), nil
+	return NewCatalogSourcedNameGenerator(config.Surnames, config.NonGenderedNames, config.FemaNames, config.MaleNames)
 }
 
 type nameConfig struct {
@@ -23,21 +20,4 @@ type nameConfig struct {
 	NonGenderedNames []string `yaml:"non_gendered_names,flow"`
 	FemaNames        []string `yaml:"female_names,flow"`
 	MaleNames        []string `yaml:"male_names,flow"`
-}
-
-func (c nameConfig) Validate() error {
-	if len(c.Surnames) == 0 {
-		return fmt.Errorf("surnames cannot be empty")
-	}
-	if len(c.NonGenderedNames) == 0 {
-		return fmt.Errorf("non_gendered_names cannot be empty")
-	}
-	if len(c.FemaNames) == 0 {
-		return fmt.Errorf("female_names cannot be empty")
-	}
-	if len(c.MaleNames) == 0 {
-		return fmt.Errorf("male_names cannot be empty")
-	}
-
-	return nil
 }
