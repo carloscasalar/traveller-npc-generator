@@ -201,7 +201,11 @@ func main() {
 	nonBinaryNames := []string{"Forge", "Jynxori", "Alex"}
 	surnames := []string{"Hicks", "Doe", "Smith"}
 
-	catalogNameGenerator := generator.NewCatalogSourcedNameGenerator(surnames, nonBinaryNames, femaleNames, maleNames)
+	catalogNameGenerator, err := generator.NewCatalogSourcedNameGenerator(surnames, nonBinaryNames, femaleNames, maleNames)
+	if err != nil {
+		fmt.Printf("Error creating catalog sourced name generator: %v", err)
+		os.Exit(1)
+	}
 	npcGenerator, err := generator.NewNpcGeneratorBuilder().NameGenerator(catalogNameGenerator).Build()
 	if err != nil {
 		fmt.Printf("Error creating NPC generator: %v", err)
