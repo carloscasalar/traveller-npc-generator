@@ -15,7 +15,7 @@ func NewDefaultNameGenerator() (NameGenerator, error) {
 		return nil, fmt.Errorf("error parsing names config file: %v", err)
 	}
 
-	return NewCatalogSourcedNameGenerator(config.Surnames, config.NonGenderedNames, config.FemaNames, config.MaleNames), nil
+	return NewCatalogSourcedNameGenerator(config.Surnames, config.NonGenderedNames, config.FemaNames, config.MaleNames)
 }
 
 type nameConfig struct {
