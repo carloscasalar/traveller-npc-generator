@@ -15,3 +15,13 @@ updates:
     labels:
       - "chore"
       - "dependencies"
+  - package-ecosystem: "gomod"
+    directory: "/tools"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "chore(tools deps): ⚛︎ update"
+    labels:
+      - "tools"
+      - "chore"
+      - "dependencies"
