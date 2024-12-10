@@ -17,7 +17,7 @@ func main() {
 
 	for _, gender := range generator.GenderValues() {
 		request := generator.NewGenerateCharacterRequestBuilder().
-			Category(generator.CategoryExceptional).
+			CitizenCategory(generator.CitizenCategoryExceptional).
 			Experience(generator.ExperienceVeteran).
 			Role(generator.RoleLeader).
 			Gender(gender).

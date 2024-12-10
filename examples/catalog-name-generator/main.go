@@ -30,7 +30,7 @@ func main() {
 		role := pickRandomItem(generator.RoleValues())
 
 		request := generator.NewGenerateCharacterRequestBuilder().
-			Category(category).
+			CitizenCategory(category).
 			Experience(experience).
 			Role(role).
 			Gender(gender).
