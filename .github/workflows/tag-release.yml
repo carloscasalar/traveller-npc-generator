@@ -10,6 +10,7 @@ on:
   push:
     branches:
       - main
+      - 14-add-some-automation-to-release-new-versions-of-the-lib
 
 jobs:
   tag:
