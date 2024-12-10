@@ -2,19 +2,19 @@ package generator
 
 import "github.com/carloscasalar/traveller-npc-generator/internal/npc"
 
-//go:generate enumer -type=CitizenCategory -output=citizen_category_auto.go -trimprefix=Category -transform=snake
+//go:generate enumer -type=CitizenCategory -output=citizen_category_auto.go -trimprefix=CitizenCategory -transform=snake
 
 type CitizenCategory int
 
 func (i CitizenCategory) toNpcCitizenCategory() npc.CitizenCategory {
 	switch i {
-	case CategoryBelowAverage:
+	case CitizenCategoryBelowAverage:
 		return npc.CategoryBelowAverage
-	case CategoryAverage:
+	case CitizenCategoryAverage:
 		return npc.CategoryAverage
-	case CategoryAboveAverage:
+	case CitizenCategoryAboveAverage:
 		return npc.CategoryAboveAverage
-	case CategoryExceptional:
+	case CitizenCategoryExceptional:
 		return npc.CategoryExceptional
 	default:
 		return npc.CitizenCategory(i)
@@ -22,8 +22,8 @@ func (i CitizenCategory) toNpcCitizenCategory() npc.CitizenCategory {
 }
 
 const (
-	CategoryBelowAverage CitizenCategory = iota
-	CategoryAverage
-	CategoryAboveAverage
-	CategoryExceptional
+	CitizenCategoryBelowAverage CitizenCategory = iota
+	CitizenCategoryAverage
+	CitizenCategoryAboveAverage
+	CitizenCategoryExceptional
 )

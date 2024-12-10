@@ -21,7 +21,7 @@ func main() {
 	role := readRole(opts)
 	gender := readGender(opts)
 	newCharacterRequest := generator.NewGenerateCharacterRequestBuilder().
-		Category(category).
+		CitizenCategory(category).
 		Experience(experience).
 		Role(role).
 		Gender(gender).

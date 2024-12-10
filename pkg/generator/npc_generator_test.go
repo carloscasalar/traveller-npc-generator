@@ -12,7 +12,7 @@ import (
 
 func Test_resulting_character_should_have_same_category_experience_and_role_as_request(t *testing.T) {
 	request := generator.NewGenerateCharacterRequestBuilder().
-		Category(generator.CategoryExceptional).
+		CitizenCategory(generator.CitizenCategoryExceptional).
 		Experience(generator.ExperienceRecruit).
 		Role(generator.RoleDiplomat).
 		Build()
@@ -21,7 +21,7 @@ func Test_resulting_character_should_have_same_category_experience_and_role_as_r
 	character, err := npcGenerator.Generate(*request)
 
 	require.NoError(t, err)
-	assert.Equal(t, generator.CategoryExceptional, character.Category())
+	assert.Equal(t, generator.CitizenCategoryExceptional, character.CitizenCategory())
 	assert.Equal(t, generator.ExperienceRecruit, character.Experience())
 	assert.Equal(t, generator.RoleDiplomat, character.Role())
 }
@@ -91,16 +91,16 @@ func Test_number_of_skills_generated_for(t *testing.T) {
 func Test_characteristic_array_for_citizen_category(t *testing.T) {
 	allCategories := generator.CitizenCategoryValues()
 	expectedCharacteristicArray := map[generator.CitizenCategory][]int{
-		generator.CategoryBelowAverage: {8, 7, 6, 6, 5, 4},
-		generator.CategoryAverage:      {9, 8, 7, 7, 6, 5},
-		generator.CategoryAboveAverage: {10, 9, 8, 8, 7, 6},
-		generator.CategoryExceptional:  {11, 10, 9, 9, 8, 7},
+		generator.CitizenCategoryBelowAverage: {8, 7, 6, 6, 5, 4},
+		generator.CitizenCategoryAverage:      {9, 8, 7, 7, 6, 5},
+		generator.CitizenCategoryAboveAverage: {10, 9, 8, 8, 7, 6},
+		generator.CitizenCategoryExceptional:  {11, 10, 9, 9, 8, 7},
 	}
 
 	for _, category := range allCategories {
 		t.Run(fmt.Sprintf("%v should be %v", category, expectedCharacteristicArray[category]), func(t *testing.T) {
 			request := generator.NewGenerateCharacterRequestBuilder().
-				Category(category).
+				CitizenCategory(category).
 				Build()
 
 			npcGenerator, _ := newGenerator()
@@ -115,14 +115,14 @@ func Test_characteristic_array_for_citizen_category(t *testing.T) {
 func Test_when_category_is_invalid_it_returns_error(t *testing.T) {
 	nonValidCategory := generator.CitizenCategory(99)
 	request := generator.NewGenerateCharacterRequestBuilder().
-		Category(nonValidCategory).
+		CitizenCategory(nonValidCategory).
 		Build()
 
 	npcGenerator, _ := newGenerator()
 	_, err := npcGenerator.Generate(*request)
 
 	assert.Error(t, err)
-	assert.Equal(t, "invalid category", err.Error())
+	assert.Equal(t, "invalid citizen category", err.Error())
 }
 
 func Test_when_experience_is_invalid_it_returns_error(t *testing.T) {
@@ -180,7 +180,7 @@ func getSortedArray(characteristics map[generator.Characteristic]int) []int {
 
 func exceptionalRecruitDiplomatRequest() *generator.GenerateCharacterRequest {
 	return generator.NewGenerateCharacterRequestBuilder().
-		Category(generator.CategoryExceptional).
+		CitizenCategory(generator.CitizenCategoryExceptional).
 		Experience(generator.ExperienceRecruit).
 		Role(generator.RoleDiplomat).
 		Build()

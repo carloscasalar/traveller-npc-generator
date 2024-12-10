@@ -3,18 +3,18 @@
 package generator
 
 type GenerateCharacterRequestBuilder struct {
-	category   CitizenCategory
-	experience Experience
-	role       Role
-	gender     Gender
+	citizenCategory CitizenCategory
+	experience      Experience
+	role            Role
+	gender          Gender
 }
 
 func NewGenerateCharacterRequestBuilder() *GenerateCharacterRequestBuilder {
 	return &GenerateCharacterRequestBuilder{}
 }
 
-func (b *GenerateCharacterRequestBuilder) Category(category CitizenCategory) *GenerateCharacterRequestBuilder {
-	b.category = category
+func (b *GenerateCharacterRequestBuilder) CitizenCategory(citizenCategory CitizenCategory) *GenerateCharacterRequestBuilder {
+	b.citizenCategory = citizenCategory
 	return b
 }
 
@@ -35,9 +35,9 @@ func (b *GenerateCharacterRequestBuilder) Gender(gender Gender) *GenerateCharact
 
 func (b *GenerateCharacterRequestBuilder) Build() *GenerateCharacterRequest {
 	return &GenerateCharacterRequest{
-		category:   b.category,
-		experience: b.experience,
-		role:       b.role,
-		gender:     b.gender,
+		citizenCategory: b.citizenCategory,
+		experience:      b.experience,
+		role:            b.role,
+		gender:          b.gender,
 	}
 }

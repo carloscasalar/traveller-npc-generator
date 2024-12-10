@@ -112,7 +112,7 @@ func main() {
 	}
 
 	request := generator.NewGenerateCharacterRequestBuilder().
-		Category(generator.CategoryAboveAverage).
+		CitizenCategory(generator.CitizenCategoryAboveAverage).
 		Experience(generator.ExperienceRookie).
 		Role(generator.RolePilot).
 		Gender(generator.GenderUnspecified).
@@ -151,7 +151,7 @@ func main() {
 
 	for _, gender := range generator.GenderValues() {
 		request := generator.NewGenerateCharacterRequestBuilder().
-			Category(generator.CategoryExceptional).
+			CitizenCategory(generator.CitizenCategoryExceptional).
 			Experience(generator.ExperienceVeteran).
 			Role(generator.RoleLeader).
 			Gender(gender).
@@ -218,7 +218,7 @@ func main() {
 		role := pickRandomItem(generator.RoleValues())
 
 		request := generator.NewGenerateCharacterRequestBuilder().
-			Category(category).
+			CitizenCategory(category).
 			Experience(experience).
 			Role(role).
 			Gender(gender).

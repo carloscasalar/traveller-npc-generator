@@ -14,14 +14,14 @@ func (g *NpcGenerator) Generate(request GenerateCharacterRequest) (*Character, e
 	role := request.role.toNpcRole()
 	experience := request.experience.toNpcExperience()
 	skills := role.Skills(experience)
-	category := request.category.toNpcCitizenCategory()
+	category := request.citizenCategory.toNpcCitizenCategory()
 	characteristic := role.RandomCharacteristic(category)
 
 	return &Character{
 		firstName:       firstName,
 		surname:         surname,
 		role:            request.role,
-		category:        request.category,
+		citizenCategory: request.citizenCategory,
 		experience:      request.experience,
 		skills:          skills,
 		characteristics: characteristic,

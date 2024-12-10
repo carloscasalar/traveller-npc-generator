@@ -14,7 +14,7 @@ func main() {
 	}
 
 	request := generator.NewGenerateCharacterRequestBuilder().
-		Category(generator.CategoryAboveAverage).
+		CitizenCategory(generator.CitizenCategoryAboveAverage).
 		Experience(generator.ExperienceRookie).
 		Role(generator.RolePilot).
 		Gender(generator.GenderUnspecified).
