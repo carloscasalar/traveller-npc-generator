@@ -1,3 +1,6 @@
+---
+# This workflow publishes a release when a new tag is created
+
 name: Publish Release
 
 on:

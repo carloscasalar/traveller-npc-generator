@@ -1,3 +1,6 @@
+---
+# This workflow validates that change log has a valid format
+
 name: Validate Changelog
 
 on:

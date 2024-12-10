@@ -1,3 +1,9 @@
+---
+# This workflow will tag a release whenever a new release is pushed to the main branch
+# properly added to the CHANGELOG.md file as a new entry with the following format:
+# ## [X.Y.Z] - YYYY-MM-DD
+
+
 name: Tag Release
 
 on:
