@@ -28,7 +28,7 @@ jobs:
         id: changelog
         run: |
           VERSION=$(grep -m1 -oP '(?<=## )[^ ]+' CHANGELOG.md)
-          echo "::set-output name=version::$VERSION"
+          echo "version=$VERSION" >> $GITHUB_ENV
           echo "Version: $VERSION"
 
       - name: Create Tag
