@@ -4,7 +4,7 @@ Output demo.gif
 Set FontSize 12
 Set Width 900
 Set Height 550
-Set TypingSpeed 200ms
+Set TypingSpeed 100ms
 Set Theme "Catppuccin Frappe"
 Set Margin 20
 Set BorderRadius 10
