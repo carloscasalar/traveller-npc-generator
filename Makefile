@@ -17,7 +17,7 @@ out:
 # Install the required tools for go generators
 install-tools:
 	@echo "Parsing tools.go and installing dependencies..."
-	@go list -e -f '{{join .Imports " "}}' tools.go | xargs -t -n 1 $(GO_BIN) install
+	@cd tools && go list -e -f '{{join .Imports " "}}' tools.go | xargs -t -n 1 $(GO_BIN) install
 	@echo "all tools installed"
 
 # Build the Go application
@@ -28,7 +28,6 @@ build: out
 build-demo: out
 	env GOOS=linux go build -o $(BINARY_DEMO_NAME) $(MAIN_PACKAGE)
 	mkdir -p $(DEMO_ASSETS)
-	cp assets/* $(DEMO_ASSETS)
 
 # Run the Go application
 run: build
