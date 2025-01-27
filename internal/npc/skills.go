@@ -29,51 +29,55 @@ func (s skill) StringLevel(level int) string {
 }
 
 var (
-	skillAdmin                  = newSkill("Admin")
-	skillAdvocate               = newSkill("Advocate")
-	skillAstrogation            = newSkill("Astrogation")
-	skillAthleticsDexterity     = newSpecialization("Athletics", "Dexterity")
-	skillAthleticsStrength      = newSpecialization("Athletics", "Strength")
-	skillBiology                = newSpecialization("Science", "Biology")
-	skillBroker                 = newSkill("Broker")
-	skillCarouse                = newSkill("Carouse")
-	skillChemical               = newSpecialization("Science", "Chemical")
-	skillCommunications         = newSpecialization("Electronics", "Communications")
-	skillComputers              = newSpecialization("Electronics", "Computers")
-	skillDeception              = newSkill("Deception")
-	skillDiplomacy              = newSkill("Diplomacy")
-	skillDriveAny               = newSpecialization("Drive", placeholderForSpecialization)
-	skillDriveGrav              = newSpecialization("Drive", "Grav")
-	skillElectronicPower        = newSpecialization("Electronic", "Power")
-	skillElectronicSensors      = newSpecialization("Electronic", "Sensors")
-	skillEngineeringAny         = newSpecialization("Engineering", placeholderForSpecialization)
-	skillEngineeringJDrive      = newSpecialization("Engineering", "Jump Drive")
-	skillEngineeringLifeSupport = newSpecialization("Engineering", "Life Support")
-	skillEngineeringMDrive      = newSpecialization("Engineering", "Manoeuvre Drive")
-	skillExplosives             = newSkill("Explosives")
-	skillGunnery                = newSkill("Gunnery")
-	skillGunCombat              = newSpecialization("Gun Combat", placeholderForSpecialization)
-	skillHeavyWeapons           = newSkill("Heavy Weapons")
-	skillInvestigate            = newSkill("Investigate")
-	skillLanguage               = newSpecialization("Language", placeholderForSpecialization)
-	skillLeadership             = newSkill("Leadership")
-	skillMechanic               = newSkill("Mechanic")
-	skillMedic                  = newSkill("Medic")
-	skillMeleeBlade             = newSpecialization("Melee", "Blade")
-	skillMeleeUnarmed           = newSpecialization("Melee", "Unarmed")
-	skillNavigationSurface      = newSpecialization("Navigation", "Surface")
-	skillPerform                = newSpecialization("Perform", placeholderForSpecialization)
-	skillPersuade               = newSkill("Persuade")
-	skillPilotAny               = newSpecialization("Pilot", placeholderForSpecialization)
-	skillRecon                  = newSkill("Recon")
-	skillSmallCraft             = newSpecialization("Pilot", "Small craft")
-	skillSpacecraft             = newSpecialization("Pilot", "Spacecraft")
-	skillStealth                = newSkill("Stealth")
-	skillSteward                = newSkill("Steward")
-	skillStreetwise             = newSkill("Streetwise")
-	skillSurvival               = newSkill("Survival")
-	skillTacticsAny             = newSpecialization("Tactics", placeholderForSpecialization)
-	skillVaccSuit               = newSkill("Vacc Suit")
+	skillAdmin               = newSkill("Admin")
+	skillAdvocate            = newSkill("Advocate")
+	skillArtActing           = newSpecialization("Art", "Acting")
+	skillArtInstrument       = newSpecialization("Art", "Instrument")
+	skillAstrogation         = newSkill("Astrogation")
+	skillAthleticsDexterity  = newSpecialization("Athletics", "Dexterity")
+	skillAthleticsStrength   = newSpecialization("Athletics", "Strength")
+	skillBiology             = newSpecialization("Science", "Biology")
+	skillBroker              = newSkill("Broker")
+	skillCarouse             = newSkill("Carouse")
+	skillChemical            = newSpecialization("Science", "Chemical")
+	skillCommunications      = newSpecialization("Electronics", "Communications")
+	skillComputers           = newSpecialization("Electronics", "Computers")
+	skillDeception           = newSkill("Deception")
+	skillDiplomat            = newSkill("Diplomat")
+	skillDriveAny            = newSpecialization("Drive", placeholderForSpecialization)
+	skillDriveGrav           = newSpecialization("Drive", "Grav")
+	skillElectronicSensors   = newSpecialization("Electronics", "Sensors")
+	skillEngineerAny         = newSpecialization("Engineer", placeholderForSpecialization)
+	skillEngineerJDrive      = newSpecialization("Engineer", "Jump Drive")
+	skillEngineerLifeSupport = newSpecialization("Engineer", "Life Support")
+	skillEngineerMDrive      = newSpecialization("Engineer", "Manoeuvre Drive")
+	skillEngineerPower       = newSpecialization("Engineer", "Power")
+	skillExplosives          = newSkill("Explosives")
+	skillFlyer               = newSpecialization("Flyer", placeholderForSpecialization)
+	skillGunnerAny           = newSpecialization("Gunner", placeholderForSpecialization)
+	skillGunnerTurrets       = newSpecialization("Gunner", "Turrets")
+	skillGunnerScreens       = newSpecialization("Gunner", "Screens")
+	skillGunCombat           = newSpecialization("Gun Combat", placeholderForSpecialization)
+	skillHeavyWeapons        = newSpecialization("Heavy Weapons", placeholderForSpecialization)
+	skillInvestigate         = newSkill("Investigate")
+	skillLanguage            = newSpecialization("Language", placeholderForSpecialization)
+	skillLeadership          = newSkill("Leadership")
+	skillMechanic            = newSkill("Mechanic")
+	skillMedic               = newSkill("Medic")
+	skillMeleeBlade          = newSpecialization("Melee", "Blade")
+	skillMeleeUnarmed        = newSpecialization("Melee", "Unarmed")
+	skillNavigation          = newSkill("Navigation")
+	skillPersuade            = newSkill("Persuade")
+	skillPilotAny            = newSpecialization("Pilot", placeholderForSpecialization)
+	skillRecon               = newSkill("Recon")
+	skillSmallCraft          = newSpecialization("Pilot", "Small craft")
+	skillSpacecraft          = newSpecialization("Pilot", "Spacecraft")
+	skillStealth             = newSkill("Stealth")
+	skillSteward             = newSkill("Steward")
+	skillStreetwise          = newSkill("Streetwise")
+	skillSurvival            = newSkill("Survival")
+	skillTacticsAny          = newSpecialization("Tactics", placeholderForSpecialization)
+	skillVaccSuit            = newSkill("Vacc Suit")
 )
 
 var skillsByRole = map[Role][]skill{
@@ -81,7 +85,7 @@ var skillsByRole = map[Role][]skill{
 		skillSpacecraft,
 		skillAstrogation,
 		skillElectronicSensors,
-		skillGunnery,
+		skillGunnerAny,
 		skillMechanic,
 		skillSmallCraft,
 		skillLeadership,
@@ -90,6 +94,7 @@ var skillsByRole = map[Role][]skill{
 		skillDriveGrav,
 		skillSurvival,
 		skillRecon,
+		skillFlyer,
 	},
 	RoleNavigator: {
 		skillAstrogation,
@@ -97,21 +102,21 @@ var skillsByRole = map[Role][]skill{
 		skillSpacecraft,
 		skillComputers,
 		skillSurvival,
-		skillNavigationSurface,
+		skillNavigation,
 		skillMechanic,
 		skillLeadership,
 		skillTacticsAny,
-		skillEngineeringAny,
+		skillEngineerAny,
 		skillVaccSuit,
 		skillRecon,
 	},
 	RoleEngineer: {
-		skillEngineeringMDrive,
+		skillEngineerMDrive,
 		skillMechanic,
-		skillElectronicPower,
+		skillEngineerPower,
 		skillComputers,
-		skillEngineeringJDrive,
-		skillEngineeringLifeSupport,
+		skillEngineerJDrive,
+		skillEngineerLifeSupport,
 		skillElectronicSensors,
 		skillSurvival,
 		skillSmallCraft,
@@ -132,7 +137,7 @@ var skillsByRole = map[Role][]skill{
 		skillLeadership,
 		skillMedic,
 		skillStreetwise,
-		skillDiplomacy,
+		skillDiplomat,
 	},
 	RoleMedic: {
 		skillMedic,
@@ -140,7 +145,7 @@ var skillsByRole = map[Role][]skill{
 		skillChemical,
 		skillDeception,
 		skillInvestigate,
-		skillDiplomacy,
+		skillDiplomat,
 		skillComputers,
 		skillPersuade,
 		skillAdmin,
@@ -162,10 +167,12 @@ var skillsByRole = map[Role][]skill{
 		skillMedic,
 		skillDriveGrav,
 		skillCommunications,
+		skillStealth,
 	},
 	RoleGunner: {
-		skillGunnery,
+		skillGunnerTurrets,
 		skillElectronicSensors,
+		skillGunnerScreens,
 		skillTacticsAny,
 		skillGunCombat,
 		skillLeadership,
@@ -184,19 +191,19 @@ var skillsByRole = map[Role][]skill{
 		skillAstrogation,
 		skillElectronicSensors,
 		skillStealth,
-		skillGunnery,
+		skillGunnerAny,
 		skillMedic,
 		skillTacticsAny,
 		skillGunCombat,
-		skillNavigationSurface,
+		skillNavigation,
 		skillLeadership,
 	},
 	RoleTechnician: {
 		skillMechanic,
 		skillComputers,
 		skillElectronicSensors,
-		skillElectronicPower,
-		skillEngineeringMDrive,
+		skillEngineerPower,
+		skillEngineerMDrive,
 		skillDriveAny,
 		skillPilotAny,
 		skillVaccSuit,
@@ -209,18 +216,19 @@ var skillsByRole = map[Role][]skill{
 		skillLeadership,
 		skillTacticsAny,
 		skillAdmin,
-		skillDiplomacy,
+		skillDiplomat,
 		skillPersuade,
 		skillAdvocate,
 		skillElectronicSensors,
 		skillComputers,
+		skillDeception,
 		skillSpacecraft,
-		skillEngineeringAny,
-		skillMedic,
+		skillEngineerAny,
 		skillRecon,
+		skillMedic,
 	},
 	RoleDiplomat: {
-		skillDiplomacy,
+		skillDiplomat,
 		skillPersuade,
 		skillAdvocate,
 		skillAdmin,
@@ -236,16 +244,18 @@ var skillsByRole = map[Role][]skill{
 	RoleEntertainer: {
 		skillCarouse,
 		skillStreetwise,
-		skillPerform,
+		skillArtInstrument,
 		skillPersuade,
 		skillStealth,
 		skillDeception,
-		skillDiplomacy,
+		skillDiplomat,
+		skillArtActing,
 		skillComputers,
 		skillElectronicSensors,
 		skillLeadership,
 		skillBroker,
 		skillMeleeBlade,
+		skillAdmin,
 	},
 	RoleTrader: {
 		skillBroker,
@@ -256,7 +266,8 @@ var skillsByRole = map[Role][]skill{
 		skillStreetwise,
 		skillGunCombat,
 		skillComputers,
-		skillDiplomacy,
+		skillDiplomat,
+		skillDeception,
 		skillCarouse,
 		skillCommunications,
 		skillMechanic,

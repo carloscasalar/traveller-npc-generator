@@ -76,11 +76,14 @@ Help Options:
 | -c     | --category   | Citizen Category: 0-Below average, 1-Average, 2-Above Average, 3-Exceptional                                                                                    | 1           |
 | -e     | --experience | Experience: 0-Recruit, 1-Rookie, 2-Intermediate, 3-Regular, 4-Veteran, 5-Elite                                                                                  | 3           |
 | -r     | --role       | Crew role in a starship: pilot, navigator , engineer , steward , medic , marine , gunner , scout , technician , leader , diplomat , entertainer , trader , thug | required    |
-| -g     |  --gender    | Gender of the NPC: female, male, unspecified                                                                                                                    | unspecified |
+| -g     | --gender     | Gender of the NPC: female, male, unspecified                                                                                                                    | unspecified |
 | -d     | --debug      | Enable debug mode                                                                                                                                               | false       |
 | -h     | --help       | Show the help message                                                                                                                                           |             |
 
-<img src="demo/demo.gif" alt="Demo" />
+<img src="demo/demo.gif" alt="Demo made with VHS">
+<a href="https://vhs.charm.sh">
+    <img src="https://stuff.charm.sh/vhs/badge.svg" alt="VHS Badge" />
+</a>
 
 ## Generator library
 You can also use this project as a library in your Go applications. 
