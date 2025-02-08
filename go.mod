@@ -6,7 +6,7 @@ require (
 	github.com/charmbracelet/lipgloss v1.0.0
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/stretchr/testify v1.10.0
-	golang.org/x/text v0.21.0
+	golang.org/x/text v0.22.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
