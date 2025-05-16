@@ -1,4 +1,4 @@
-# Yet another Traveller NPC generator
+# Yet another Traveller NPC generator [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/carloscasalar/traveller-npc-generator)
 
 This is a simple NPC generator for the Traveller RPG. 
 It follows rules described in [this article](https://greatdungeonnorth.blogspot.com/2020/02/stock-in-trade-typical-traveller-npcs.html). 
