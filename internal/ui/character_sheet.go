@@ -2,11 +2,13 @@ package ui
 
 import (
 	"fmt"
+	"strings"
+
+	"github.com/carloscasalar/traveller-npc-generator/pkg/generator"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/lipgloss/table"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
-	"strings"
 )
 
 //go:generate gonstructor -type=CharacterSheet -constructorTypes=builder -output=character_sheet_auto.go
@@ -24,6 +26,7 @@ type CharacterSheet struct {
 	experience      string
 	skills          []string
 	characteristics map[Characteristic]int
+	equipment       generator.EquipmentSet
 }
 
 func (c *CharacterSheet) Render() string {
@@ -39,6 +42,13 @@ func (c *CharacterSheet) Render() string {
 	sheetRender.WriteString(characteristicsTable.Render())
 	sheetRender.WriteString("\n")
 	sheetRender.WriteString(skillsTable.Render())
+
+	// Add Equipment Table
+	equipmentTable := c.buildEquipmentTable(titleStyle, valueStyle)
+	if equipmentTable != nil {
+		sheetRender.WriteString("\n")
+		sheetRender.WriteString(equipmentTable.Render())
+	}
 
 	return sheetRender.String()
 }
@@ -142,4 +152,52 @@ func toStringList[T interface{ String() string }](values []T) []string {
 		stringValues[i] = v.String()
 	}
 	return stringValues
+}
+
+func (c *CharacterSheet) buildEquipmentTable(titleBox lipgloss.Style, valueBox lipgloss.Style) *table.Table {
+	rows := [][]string{}
+	addItemRow := func(itemType string, itemName string, cost int) {
+		rows = append(rows, []string{itemType, itemName, fmt.Sprintf("%dcr", cost)})
+	}
+
+	hasEquipment := false
+	for _, item := range c.equipment.Armor {
+		addItemRow("Armor", item.Name, item.CostCredits)
+		hasEquipment = true
+	}
+	for _, item := range c.equipment.Weapons {
+		addItemRow("Weapon", item.Name, item.CostCredits)
+		hasEquipment = true
+	}
+	for _, item := range c.equipment.Tools {
+		addItemRow("Tool", item.Name, item.CostCredits)
+		hasEquipment = true
+	}
+	for _, item := range c.equipment.Misc {
+		addItemRow("Misc", item.Name, item.CostCredits)
+		hasEquipment = true
+	}
+
+	if !hasEquipment {
+		return nil // Don't render table if no equipment
+	}
+
+	equipmentTable := table.New().
+		Border(lipgloss.RoundedBorder()).
+		Headers("Type", "Item Name", "Cost").
+		Rows(rows...). // Unpack rows
+		Width(tableWidth).
+		StyleFunc(func(row, col int) lipgloss.Style {
+			switch row {
+			case headerIndex:
+				return titleBox.PaddingLeft(1)
+			default:
+				style := valueBox.PaddingLeft(1)
+				if col == 2 { // Cost column
+					return style.Align(lipgloss.Right).PaddingRight(1)
+				}
+				return style
+			}
+		})
+	return equipmentTable
 }

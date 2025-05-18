@@ -13,6 +13,7 @@ type Character struct {
 	experience      Experience
 	skills          []string
 	characteristics map[npc.Characteristic]int
+	equipment       EquipmentSet
 }
 
 func (c Character) FirstName() string {
@@ -54,8 +55,12 @@ func (c Character) Characteristics() map[Characteristic]int {
 	}
 }
 
+func (c Character) Equipment() EquipmentSet {
+	return c.equipment
+}
+
 // String returns a string representation of the character. It is prone to change so you should not rely on it.
 func (c Character) String() string {
-	return fmt.Sprintf("Character{firstName: %v, surname: %v, role: %v, citizenCategory: %v, experience: %v, skills: %v, characteristics: %v}",
-		c.firstName, c.surname, c.role, c.citizenCategory, c.experience, c.skills, c.characteristics)
+	return fmt.Sprintf("Character{firstName: %v, surname: %v, role: %v, citizenCategory: %v, experience: %v, skills: %v, characteristics: %v, equipment: %+v}",
+		c.firstName, c.surname, c.role, c.citizenCategory, c.experience, c.skills, c.characteristics, c.equipment)
 }

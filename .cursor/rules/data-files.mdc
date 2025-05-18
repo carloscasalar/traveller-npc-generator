@@ -1,0 +1,6 @@
+---
+description: When creating files to store data instead of code
+globs: 
+alwaysApply: false
+---
+When creating data files, prefer yml over json
