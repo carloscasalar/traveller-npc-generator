@@ -1,3 +1,4 @@
+---
 - name: Autopistol
   type: weapon
   weapon_type: pistol

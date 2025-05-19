@@ -1,3 +1,4 @@
+---
 - name: Flak Jacket
   type: armor
   armor_value: 4
