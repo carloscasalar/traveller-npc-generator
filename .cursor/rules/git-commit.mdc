@@ -1,5 +1,5 @@
 ---
-description: Follow when commiting to git
+description: Rules for formatting git commit messages
 globs: 
 alwaysApply: false
 ---
