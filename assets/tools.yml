@@ -33,4 +33,25 @@
     - repair
     - technician_role
     - good
-    - preferred_access 
+    - preferred_access
+- name: Military Comms
+  type: tool
+  tech_level: 8
+  legality: Military
+  cost_credits: 500
+  tags:
+    - communication
+    - military
+    - high_quality
+    - standard_access
+    - marine
+- name: Personal Comms
+  type: tool
+  tech_level: 7
+  legality: Legal
+  cost_credits: 100
+  tags:
+    - communication
+    - standard
+    - common
+    - standard_access 

@@ -49,15 +49,15 @@ var domainRoleItemTagPreferences = map[npc.Role][]string{
 	npc.RoleEngineer:    {"engineering", "repair", "tool", "power_systems"},
 	npc.RoleSteward:     {"service", "social", "luxury"},
 	npc.RoleMedic:       {"medical", "first_aid", "science", "rescue"},
-	npc.RoleMarine:      {"weapon", "armor", "combat", "military", "security"},
-	npc.RoleGunner:      {"weapon", "combat", "heavy_weapon", "security"},
-	npc.RoleScout:       {"exploration", "survival", "sensor", "stealth"},
-	npc.RoleTechnician:  {"electronics", "repair", "tool", "computer", "mechanical"},
-	npc.RoleLeader:      {"communication", "social", "command"},
+	npc.RoleMarine:      {"weapon", "armor", "combat", "military", "security", "communication", "survival"},
+	npc.RoleGunner:      {"weapon", "combat", "heavy_weapon", "security", "communication"},
+	npc.RoleScout:       {"exploration", "survival", "sensor", "stealth", "communication"},
+	npc.RoleTechnician:  {"electronics", "repair", "tool", "computer", "mechanical", "communication"},
+	npc.RoleLeader:      {"communication", "social", "command", "survival"},
 	npc.RoleDiplomat:    {"social", "communication", "formal_wear"},
 	npc.RoleEntertainer: {"social", "performance", "art"},
-	npc.RoleTrader:      {"commerce", "negotiation", "cargo"},
-	npc.RoleThug:        {"weapon", "intimidation", "stealth", "makeshift"},
+	npc.RoleTrader:      {"commerce", "negotiation", "cargo", "communication"},
+	npc.RoleThug:        {"weapon", "intimidation", "stealth", "makeshift", "survival"},
 }
 
 func itemHasPreferredTag(itemTags []string, preferredTags []string) bool {

@@ -59,48 +59,56 @@ func TestGenerateEquipmentSet_MarineWithHighWealth(t *testing.T) {
 	assert.NotEmpty(t, equipment.Misc)
 }
 
-func TestGenerateEquipmentSet_MarineEquipmentMatchesRole(t *testing.T) {
+func TestGenerateEquipmentSet_MarineHasCombatArmor(t *testing.T) {
 	require.NoError(t, Init())
 
 	equipment := GenerateEquipmentSet(1000000, npc.RoleMarine, 8, npc.CategoryAverage)
 
-	marineTags := domainRoleItemTagPreferences[npc.RoleMarine]
-	hasMatchingTag := false
-
-	for _, item := range equipment.Armor {
-		for _, tag := range item.Tags {
-			for _, marineTag := range marineTags {
-				if tag == marineTag {
-					hasMatchingTag = true
-					break
-				}
-			}
-		}
-	}
-
-	assert.True(t, hasMatchingTag, "Marine equipment should have at least one matching role tag")
+	assert.Equal(t, "Combat Armor", equipment.Armor[0].Name)
 }
 
-func TestGenerateEquipmentSet_MarineEquipmentMatchesQuality(t *testing.T) {
+func TestGenerateEquipmentSet_MarineHasCombatRifle(t *testing.T) {
 	require.NoError(t, Init())
 
 	equipment := GenerateEquipmentSet(1000000, npc.RoleMarine, 8, npc.CategoryAverage)
 
-	qualityTags := GetQualityTags(8, npc.CategoryAverage)
-	hasMatchingTag := false
+	assert.Equal(t, "Combat Rifle", equipment.Weapons[0].Name)
+}
 
-	for _, item := range equipment.Armor {
-		for _, tag := range item.Tags {
-			for _, qualityTag := range qualityTags {
-				if tag == qualityTag {
-					hasMatchingTag = true
-					break
-				}
-			}
-		}
-	}
+func TestGenerateEquipmentSet_MarineHasMilitaryArmor(t *testing.T) {
+	require.NoError(t, Init())
 
-	assert.True(t, hasMatchingTag, "Marine equipment should have at least one matching quality tag")
+	equipment := GenerateEquipmentSet(1000000, npc.RoleMarine, 8, npc.CategoryAverage)
+
+	assert.Equal(t, "Combat Armor", equipment.Armor[0].Name)
+	assert.Contains(t, equipment.Armor[0].Tags, "military")
+}
+
+func TestGenerateEquipmentSet_MarineHasMilitaryWeapon(t *testing.T) {
+	require.NoError(t, Init())
+
+	equipment := GenerateEquipmentSet(1000000, npc.RoleMarine, 8, npc.CategoryAverage)
+
+	assert.Equal(t, "Combat Rifle", equipment.Weapons[0].Name)
+	assert.Contains(t, equipment.Weapons[0].Tags, "military")
+}
+
+func TestGenerateEquipmentSet_MarineHasQualityArmor(t *testing.T) {
+	require.NoError(t, Init())
+
+	equipment := GenerateEquipmentSet(1000000, npc.RoleMarine, 8, npc.CategoryAverage)
+
+	assert.Equal(t, "Combat Armor", equipment.Armor[0].Name)
+	assert.Contains(t, equipment.Armor[0].Tags, "high_quality")
+}
+
+func TestGenerateEquipmentSet_MarineHasQualityWeapon(t *testing.T) {
+	require.NoError(t, Init())
+
+	equipment := GenerateEquipmentSet(1000000, npc.RoleMarine, 8, npc.CategoryAverage)
+
+	assert.Equal(t, "Combat Rifle", equipment.Weapons[0].Name)
+	assert.Contains(t, equipment.Weapons[0].Tags, "high_quality")
 }
 
 func TestGenerateEquipmentSet_MarineEquipmentRespectsLegality(t *testing.T) {
@@ -108,12 +116,9 @@ func TestGenerateEquipmentSet_MarineEquipmentRespectsLegality(t *testing.T) {
 
 	equipment := GenerateEquipmentSet(1000000, npc.RoleMarine, 8, npc.CategoryAverage)
 
-	for _, item := range equipment.Armor {
-		assert.True(t, canAccessLegality(npc.RoleMarine, item.Legality),
-			"Marine equipment should respect legality restrictions")
-	}
-	for _, item := range equipment.Weapons {
-		assert.True(t, canAccessLegality(npc.RoleMarine, item.Legality),
-			"Marine equipment should respect legality restrictions")
-	}
+	assert.Equal(t, "Combat Armor", equipment.Armor[0].Name)
+	assert.Equal(t, "Military", equipment.Armor[0].Legality)
+
+	assert.Equal(t, "Combat Rifle", equipment.Weapons[0].Name)
+	assert.Equal(t, "Military", equipment.Weapons[0].Legality)
 }

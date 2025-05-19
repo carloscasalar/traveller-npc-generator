@@ -25,4 +25,25 @@
   legality: Legal
   tags:
     - observation
-    - utility 
+    - utility
+- name: Field Rations
+  type: misc
+  tech_level: 6
+  legality: Legal
+  cost_credits: 20
+  tags:
+    - survival
+    - standard
+    - common
+    - standard_access
+    - marine
+- name: Medkit
+  type: misc
+  tech_level: 7
+  legality: Legal
+  cost_credits: 150
+  tags:
+    - medical
+    - standard
+    - common
+    - standard_access 
