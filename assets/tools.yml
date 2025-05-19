@@ -2,7 +2,6 @@
 - name: Hand Computer
   type: tool
   tech_level: 9
-  weight_kg: 0.5
   cost_credits: 1000
   legality: Legal
   tags:
@@ -14,7 +13,6 @@
 - name: Medkit
   type: tool
   tech_level: 7
-  weight_kg: 2.0
   cost_credits: 300
   legality: Legal
   tags:
@@ -26,7 +24,6 @@
 - name: Engineering Tool Kit
   type: tool
   tech_level: 8
-  weight_kg: 10.0
   cost_credits: 1500
   legality: Legal
   tags:
