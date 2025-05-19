@@ -1,6 +1,6 @@
 ---
-description: When writting or updating a yml file
-globs: 
+description: 
+globs: *.yml,*.yaml
 alwaysApply: false
 ---
 # YAML File Formatting Rules
