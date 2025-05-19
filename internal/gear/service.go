@@ -96,9 +96,141 @@ func isItemPurchased(itemName string, itemType string, currentEquipment Equipmen
 	return false
 }
 
-// GenerateEquipmentSet creates a set of equipment for an NPC based on their wealth and role.
-// It uses domain types for role and returns a domain EquipmentSet.
-func GenerateEquipmentSet(wealthPoints int, role npc.Role, npcSoc int) EquipmentSet {
+// TagCategory represents the type of tag and its source
+type TagCategory int
+
+const (
+	TagCategoryPurpose TagCategory = iota // Tags from roles indicating needs/purposes
+	TagCategoryQuality                    // Tags from SOC/citizen category indicating quality/access
+	TagCategoryBase                       // Base item tags
+)
+
+// Tag represents a single tag with its category
+type Tag struct {
+	Name     string
+	Category TagCategory
+}
+
+// TagSet represents a collection of tags from different sources
+type TagSet struct {
+	PurposeTags []string // Tags from role indicating needs/purposes
+	QualityTags []string // Tags from SOC/citizen category indicating quality/access
+	BaseTags    []string // Base item tags
+}
+
+// GetRolePurposeTags returns the purpose tags for a given role
+func GetRolePurposeTags(role npc.Role) []string {
+	return domainRoleItemTagPreferences[role]
+}
+
+// GetQualityTags returns quality/access tags based on SOC and citizen category
+func GetQualityTags(socValue int, category npc.CitizenCategory) []string {
+	var qualityTags []string
+
+	// Add quality tags based on SOC
+	switch {
+	case socValue <= 2:
+		qualityTags = append(qualityTags, "basic", "low_quality")
+	case socValue <= 5:
+		qualityTags = append(qualityTags, "standard", "common")
+	case socValue <= 8:
+		qualityTags = append(qualityTags, "good", "reliable")
+	case socValue <= 11:
+		qualityTags = append(qualityTags, "high_quality", "premium")
+	case socValue <= 14:
+		qualityTags = append(qualityTags, "luxury", "exclusive")
+	default:
+		qualityTags = append(qualityTags, "elite", "exceptional")
+	}
+
+	// Add access tags based on citizen category
+	switch category {
+	case npc.CategoryBelowAverage:
+		qualityTags = append(qualityTags, "restricted_access")
+	case npc.CategoryAverage:
+		qualityTags = append(qualityTags, "standard_access")
+	case npc.CategoryAboveAverage:
+		qualityTags = append(qualityTags, "preferred_access")
+	case npc.CategoryExceptional:
+		qualityTags = append(qualityTags, "privileged_access")
+	}
+
+	return qualityTags
+}
+
+// itemMatchesTagSet checks if an item matches the given tag set
+func itemMatchesTagSet(itemTags []string, tagSet TagSet) bool {
+	// Check purpose tags (at least one match required)
+	purposeMatch := false
+	if len(tagSet.PurposeTags) == 0 {
+		purposeMatch = true
+	} else {
+		for _, pTag := range tagSet.PurposeTags {
+			for _, iTag := range itemTags {
+				if pTag == iTag {
+					purposeMatch = true
+					break
+				}
+			}
+			if purposeMatch {
+				break
+			}
+		}
+	}
+	if !purposeMatch {
+		return false
+	}
+
+	// Only require a quality tag match if the item has any quality/access tags
+	itemHasQuality := false
+	for _, iTag := range itemTags {
+		if iTag == "basic" || iTag == "low_quality" || iTag == "standard" || iTag == "common" || iTag == "good" || iTag == "reliable" || iTag == "high_quality" || iTag == "premium" || iTag == "luxury" || iTag == "exclusive" || iTag == "elite" || iTag == "exceptional" || iTag == "restricted_access" || iTag == "standard_access" || iTag == "preferred_access" || iTag == "privileged_access" {
+			itemHasQuality = true
+			break
+		}
+	}
+
+	if itemHasQuality {
+		qualityMatch := false
+		if len(tagSet.QualityTags) == 0 {
+			qualityMatch = true
+		} else {
+			for _, qTag := range tagSet.QualityTags {
+				for _, iTag := range itemTags {
+					if qTag == iTag {
+						qualityMatch = true
+						break
+					}
+				}
+				if qualityMatch {
+					break
+				}
+			}
+		}
+		if !qualityMatch {
+			return false
+		}
+	}
+
+	return true
+}
+
+// canAccessLegality determines if a role can access an item with a given legality
+func canAccessLegality(role npc.Role, legality string) bool {
+	switch legality {
+	case "Military":
+		return role == npc.RoleMarine || role == npc.RoleGunner || role == npc.RoleThug
+	case "Restricted":
+		return role == npc.RoleMarine || role == npc.RoleGunner || role == npc.RoleThug
+	case "Legal", "":
+		return true
+	default:
+		return false
+	}
+}
+
+// GenerateEquipmentSet creates a set of equipment for an NPC based on their wealth, role, and category.
+func GenerateEquipmentSet(wealthPoints int, role npc.Role, npcSoc int, category npc.CitizenCategory) EquipmentSet {
 	rand.Seed(time.Now().UnixNano())
 
 	equipment := EquipmentSet{
@@ -109,11 +241,9 @@ func GenerateEquipmentSet(wealthPoints int, role npc.Role, npcSoc int) Equipment
 	}
 
 	remainingWealth := wealthPoints
-	preferredTags := domainRoleItemTagPreferences[role]
-
-	isLawAbiding := true
-	if role == npc.RoleThug {
-		isLawAbiding = false
+	tagSet := TagSet{
+		PurposeTags: GetRolePurposeTags(role),
+		QualityTags: GetQualityTags(npcSoc, category),
 	}
 
 	const maxIterations = 200
@@ -127,12 +257,11 @@ func GenerateEquipmentSet(wealthPoints int, role npc.Role, npcSoc int) Equipment
 
 		for _, item := range allMasterItems {
 			if item.CostCredits <= remainingWealth && item.CostCredits > 0 {
-				if isLawAbiding && item.Legality != "Legal" && item.Legality != "" {
+				if !canAccessLegality(role, item.Legality) {
 					continue
 				}
-				if !itemHasPreferredTag(item.Tags, preferredTags) {
-					// Lenient: if no specific preference for role, or if item doesn't match specific but general items are OK.
-					// A stricter approach might check: if len(preferredTags) > 0 && !itemHasPreferredTag(...) then continue
+				if !itemMatchesTagSet(item.Tags, tagSet) {
+					continue
 				}
 				if isItemPurchased(item.Name, item.Type, equipment) {
 					continue

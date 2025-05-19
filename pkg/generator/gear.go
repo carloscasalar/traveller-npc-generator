@@ -16,9 +16,7 @@ type GearItem struct {
 	TechLevel        int      `json:"tech_level"`
 	Damage           string   `json:"damage,omitempty"`
 	RangeMeters      int      `json:"range_meters,omitempty"`
-	WeightKg         float64  `json:"weight_kg"`
 	MagazineCapacity int      `json:"magazine_capacity,omitempty"`
-	AmmoType         string   `json:"ammo_type,omitempty"`
 	Legality         string   `json:"legality"`
 	CostCredits      int      `json:"cost_credits"`
 	Tags             []string `json:"tags"`
@@ -48,9 +46,7 @@ func mapInternalItemToGeneratorItem(internalItem gear.Item) GearItem {
 		TechLevel:        internalItem.TechLevel,
 		Damage:           internalItem.Damage,
 		RangeMeters:      internalItem.RangeMeters,
-		WeightKg:         internalItem.WeightKg,
 		MagazineCapacity: internalItem.MagazineCapacity,
-		AmmoType:         internalItem.AmmoType,
 		Legality:         internalItem.Legality,
 		CostCredits:      internalItem.CostCredits,
 		Tags:             append([]string{}, internalItem.Tags...), // Create a copy
@@ -88,9 +84,10 @@ func CalculateWealthPoints(socValue int, category CitizenCategory) int {
 
 // GenerateEquipmentSet creates a set of equipment for an NPC based on their wealth and role.
 // It acts as a facade to the internal gear service.
-func GenerateEquipmentSet(wealthPoints int, role Role, npcSoc int) EquipmentSet {
+func GenerateEquipmentSet(wealthPoints int, role Role, npcSoc int, category CitizenCategory) EquipmentSet {
 	npcRole := role.toNpcRole() // Uses existing mapper from role.go
-	internalEquipmentSet := gear.GenerateEquipmentSet(wealthPoints, npcRole, npcSoc)
+	npcCategory := category.toNpcCitizenCategory()
+	internalEquipmentSet := gear.GenerateEquipmentSet(wealthPoints, npcRole, npcSoc, npcCategory)
 	return mapInternalEquipmentSetToGeneratorEquipmentSet(internalEquipmentSet)
 }
 

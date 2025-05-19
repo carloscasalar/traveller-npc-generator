@@ -9,9 +9,7 @@ type Item struct {
 	TechLevel        int      `yaml:"tech_level"`
 	Damage           string   `yaml:"damage,omitempty"`
 	RangeMeters      int      `yaml:"range_meters,omitempty"`
-	WeightKg         float64  `yaml:"weight_kg"`
 	MagazineCapacity int      `yaml:"magazine_capacity,omitempty"`
-	AmmoType         string   `yaml:"ammo_type,omitempty"`
 	Legality         string   `yaml:"legality"`
 	CostCredits      int      `yaml:"cost_credits"`
 	Tags             []string `yaml:"tags"`

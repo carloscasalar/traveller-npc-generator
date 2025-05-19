@@ -22,7 +22,7 @@ func (g *NpcGenerator) Generate(request GenerateCharacterRequest) (*Character, e
 	// Generate equipment
 	npcSocValue := characteristic[npc.SOC]
 	wealthPoints := CalculateWealthPoints(npcSocValue, request.citizenCategory)
-	equipment := GenerateEquipmentSet(wealthPoints, request.role, npcSocValue)
+	equipment := GenerateEquipmentSet(wealthPoints, request.role, npcSocValue, request.citizenCategory)
 
 	return &Character{
 		firstName:       firstName,

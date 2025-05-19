@@ -5,6 +5,7 @@ import (
 
 	"github.com/carloscasalar/traveller-npc-generator/internal/npc" // For npc.CitizenCategory
 	"github.com/stretchr/testify/assert"                            // Added testify/assert
+	"github.com/stretchr/testify/require"
 )
 
 func TestCalculateWealthPoints(t *testing.T) {
@@ -12,7 +13,7 @@ func TestCalculateWealthPoints(t *testing.T) {
 		name           string
 		socValue       int
 		category       npc.CitizenCategory
-		expectedWealth int // Simplified to single expected value
+		expectedWealth int
 	}{
 		{"Low SOC, Below Average", 2, npc.CategoryBelowAverage, 30},
 		{"Low SOC, Average", 2, npc.CategoryAverage, 50},
@@ -28,8 +29,7 @@ func TestCalculateWealthPoints(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			actualWealth := CalculateWealthPoints(tc.socValue, tc.category)
-			assert.Equal(t, tc.expectedWealth, actualWealth,
-				"For SOC %d and Category %v", tc.socValue, tc.category)
+			assert.Equal(t, tc.expectedWealth, actualWealth)
 		})
 	}
 }
@@ -38,30 +38,82 @@ func TestCalculateWealthPoints(t *testing.T) {
 // TODO: Add tests for helper functions if they become more complex or are exported (itemHasPreferredTag, isItemPurchased)
 
 func TestGenerateEquipmentSet_ZeroWealth(t *testing.T) {
-	// Ensure master lists are loaded for this test run if not already
-	if err := Init(); err != nil && len(GetMasterArmorList()) == 0 { // Simple check if Init likely hasn't run
-		assert.FailNow(t, "Init() failed for test setup: %v", err) // Use FailNow for setup issues
-	}
+	require.NoError(t, Init())
 
-	equipment := GenerateEquipmentSet(0, npc.RolePilot, 7) // Role and SOC are arbitrary for zero wealth
-	assert.Empty(t, equipment.Armor, "Armor should be empty with zero wealth")
-	assert.Empty(t, equipment.Weapons, "Weapons should be empty with zero wealth")
-	assert.Empty(t, equipment.Tools, "Tools should be empty with zero wealth")
-	assert.Empty(t, equipment.Misc, "Misc items should be empty with zero wealth")
+	equipment := GenerateEquipmentSet(0, npc.RolePilot, 7, npc.CategoryAverage)
+
+	assert.Empty(t, equipment.Armor)
+	assert.Empty(t, equipment.Weapons)
+	assert.Empty(t, equipment.Tools)
+	assert.Empty(t, equipment.Misc)
 }
 
-func TestGenerateEquipmentSet_SufficientWealth(t *testing.T) {
-	if err := Init(); err != nil && len(GetMasterArmorList()) == 0 {
-		assert.FailNow(t, "Init() failed for test setup: %v", err)
+func TestGenerateEquipmentSet_MarineWithHighWealth(t *testing.T) {
+	require.NoError(t, Init())
+
+	equipment := GenerateEquipmentSet(1000000, npc.RoleMarine, 8, npc.CategoryAverage)
+
+	assert.NotEmpty(t, equipment.Armor)
+	assert.NotEmpty(t, equipment.Weapons)
+	assert.NotEmpty(t, equipment.Tools)
+	assert.NotEmpty(t, equipment.Misc)
+}
+
+func TestGenerateEquipmentSet_MarineEquipmentMatchesRole(t *testing.T) {
+	require.NoError(t, Init())
+
+	equipment := GenerateEquipmentSet(1000000, npc.RoleMarine, 8, npc.CategoryAverage)
+
+	marineTags := domainRoleItemTagPreferences[npc.RoleMarine]
+	hasMatchingTag := false
+
+	for _, item := range equipment.Armor {
+		for _, tag := range item.Tags {
+			for _, marineTag := range marineTags {
+				if tag == marineTag {
+					hasMatchingTag = true
+					break
+				}
+			}
+		}
 	}
 
-	equipment := GenerateEquipmentSet(1000000, npc.RoleMarine, 8)
-	// Check if at least one category of equipment is not empty
-	hasSomeEquipment := len(equipment.Armor) > 0 ||
-		len(equipment.Weapons) > 0 ||
-		len(equipment.Tools) > 0 ||
-		len(equipment.Misc) > 0
+	assert.True(t, hasMatchingTag, "Marine equipment should have at least one matching role tag")
+}
 
-	assert.True(t, hasSomeEquipment, "Expected some equipment with high wealth for a Marine, but got none. Equipment: %+v", equipment)
-	// A more specific test would check for a weapon or armor for a Marine.
+func TestGenerateEquipmentSet_MarineEquipmentMatchesQuality(t *testing.T) {
+	require.NoError(t, Init())
+
+	equipment := GenerateEquipmentSet(1000000, npc.RoleMarine, 8, npc.CategoryAverage)
+
+	qualityTags := GetQualityTags(8, npc.CategoryAverage)
+	hasMatchingTag := false
+
+	for _, item := range equipment.Armor {
+		for _, tag := range item.Tags {
+			for _, qualityTag := range qualityTags {
+				if tag == qualityTag {
+					hasMatchingTag = true
+					break
+				}
+			}
+		}
+	}
+
+	assert.True(t, hasMatchingTag, "Marine equipment should have at least one matching quality tag")
+}
+
+func TestGenerateEquipmentSet_MarineEquipmentRespectsLegality(t *testing.T) {
+	require.NoError(t, Init())
+
+	equipment := GenerateEquipmentSet(1000000, npc.RoleMarine, 8, npc.CategoryAverage)
+
+	for _, item := range equipment.Armor {
+		assert.True(t, canAccessLegality(npc.RoleMarine, item.Legality),
+			"Marine equipment should respect legality restrictions")
+	}
+	for _, item := range equipment.Weapons {
+		assert.True(t, canAccessLegality(npc.RoleMarine, item.Legality),
+			"Marine equipment should respect legality restrictions")
+	}
 }

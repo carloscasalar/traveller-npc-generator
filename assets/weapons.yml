@@ -12,6 +12,8 @@
   tags:
     - personal_defense
     - common
+    - standard
+    - standard_access
 - name: Combat Rifle
   type: weapon
   weapon_type: rifle
@@ -26,6 +28,11 @@
   tags:
     - military
     - assault
+    - high_quality
+    - preferred_access
+    - standard_access
+    - standard
+    - common
 - name: Survival Knife
   type: weapon
   weapon_type: blade
@@ -36,4 +43,6 @@
   cost_credits: 50
   tags:
     - utility
-    - melee 
+    - melee
+    - basic
+    - standard_access 

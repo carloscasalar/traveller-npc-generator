@@ -8,6 +8,8 @@
   tags:
     - personal_protection
     - common
+    - standard
+    - standard_access
 - name: Combat Armor
   type: armor
   armor_value: 8
@@ -18,6 +20,11 @@
   tags:
     - military
     - heavy_protection
+    - high_quality
+    - preferred_access
+    - standard_access
+    - standard
+    - common
 - name: Ablat Armor
   type: armor
   armor_value: 6
@@ -27,4 +34,6 @@
   legality: Restricted
   tags:
     - starship_crew
-    - energy_weapon_defense 
+    - energy_weapon_defense
+    - good
+    - restricted_access 

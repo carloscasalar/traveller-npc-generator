@@ -8,6 +8,8 @@
     - information
     - electronics
     - common
+    - good
+    - standard_access
 - name: Medkit
   type: tool
   tech_level: 7
@@ -18,6 +20,8 @@
     - medical
     - first_aid
     - common
+    - standard
+    - standard_access
 - name: Engineering Tool Kit
   type: tool
   tech_level: 8
@@ -27,4 +31,6 @@
   tags:
     - engineering
     - repair
-    - technician_role 
+    - technician_role
+    - good
+    - preferred_access 
