@@ -1,3 +1,8 @@
+---
+description: When writting or updating a yml file
+globs: 
+alwaysApply: false
+---
 # YAML File Formatting Rules
 
 ## Required Format

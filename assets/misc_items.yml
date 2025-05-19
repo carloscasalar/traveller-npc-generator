@@ -2,7 +2,6 @@
 - name: Personal Commlink
   type: misc
   tech_level: 8
-  weight_kg: 0.1
   cost_credits: 100
   legality: Legal
   tags:
@@ -12,7 +11,6 @@
 - name: Credit Chip (100 Cr)
   type: misc
   tech_level: 6
-  weight_kg: 0.01
   cost_credits: 100
   legality: Legal
   tags:
@@ -21,7 +19,6 @@
 - name: Binoculars, Standard
   type: misc
   tech_level: 5
-  weight_kg: 1.0
   cost_credits: 150
   legality: Legal
   tags:
