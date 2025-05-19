@@ -1,6 +1,7 @@
 ---
 name: Yaml Lint
-on: [push]
+on:
+  push: true
 jobs:
   lintAllTheThings:
     runs-on: ubuntu-latest

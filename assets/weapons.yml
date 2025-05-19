@@ -5,6 +5,7 @@
   tech_level: 9
   damage: 2d6
   range_meters: 50
+  weight_kg: 1.0
   magazine_capacity: 15
   ammo_type: 9mm
   legality: Restricted
@@ -20,6 +21,7 @@
   tech_level: 10
   damage: 3d6
   range_meters: 400
+  weight_kg: 3.5
   magazine_capacity: 30
   ammo_type: 7.62mm
   legality: Military
@@ -37,6 +39,7 @@
   weapon_type: blade
   tech_level: 1
   damage: 1d6+DM
+  weight_kg: 0.5
   legality: Legal
   cost_credits: 50
   tags:
