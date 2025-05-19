@@ -2,12 +2,19 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
+
 	"github.com/carloscasalar/traveller-npc-generator/internal/ui"
 	"github.com/carloscasalar/traveller-npc-generator/pkg/generator"
-	"os"
 )
 
 func main() {
+	// Initialize gear data
+	if err := generator.InitGearData(); err != nil {
+		log.Fatalf("Error initializing gear data: %v", err)
+	}
+
 	opts := readOptionsOrFail()
 	npcGenerator := spawnNpcGeneratorOrFail()
 	debugEnabled := opts.EnableDebug
@@ -44,6 +51,7 @@ func main() {
 		Experience(experience.String()).
 		Skills(character.Skills()).
 		Characteristics(toUICharacteristics(character.Characteristics())).
+		Equipment(character.Equipment()).
 		Build()
 	printSheet(sheet)
 }
