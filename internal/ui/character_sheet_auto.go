@@ -2,6 +2,8 @@
 
 package ui
 
+import "github.com/carloscasalar/traveller-npc-generator/pkg/generator"
+
 type CharacterSheetBuilder struct {
 	fullName        string
 	role            string
@@ -9,6 +11,7 @@ type CharacterSheetBuilder struct {
 	experience      string
 	skills          []string
 	characteristics map[Characteristic]int
+	equipment       generator.EquipmentSet
 }
 
 func NewCharacterSheetBuilder() *CharacterSheetBuilder {
@@ -45,6 +48,11 @@ func (b *CharacterSheetBuilder) Characteristics(characteristics map[Characterist
 	return b
 }
 
+func (b *CharacterSheetBuilder) Equipment(equipment generator.EquipmentSet) *CharacterSheetBuilder {
+	b.equipment = equipment
+	return b
+}
+
 func (b *CharacterSheetBuilder) Build() *CharacterSheet {
 	return &CharacterSheet{
 		fullName:        b.fullName,
@@ -53,5 +61,6 @@ func (b *CharacterSheetBuilder) Build() *CharacterSheet {
 		experience:      b.experience,
 		skills:          b.skills,
 		characteristics: b.characteristics,
+		equipment:       b.equipment,
 	}
 }
