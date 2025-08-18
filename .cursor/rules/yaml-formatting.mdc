@@ -1,0 +1,35 @@
+---
+description: 
+globs: *.yml,*.yaml
+alwaysApply: false
+---
+# YAML File Formatting Rules
+
+## Required Format
+1. All YAML files must start with `---` document start marker
+2. Files must end with a newline character
+3. No trailing spaces at the end of lines
+4. Consistent indentation (2 spaces)
+5. Proper boolean values (use `true`/`false` instead of `yes`/`no` or `on`/`off`)
+
+## Example
+```yaml
+---
+- name: Example Item
+  type: example
+  value: 123
+  tags:
+    - tag1
+    - tag2
+```
+
+## Common Issues to Avoid
+- Missing document start marker (`---`)
+- Missing newline at end of file
+- Trailing spaces
+- Inconsistent indentation
+- Using truthy values instead of proper booleans
+
+## Files to Check
+- All `.yml` files in the `assets/` directory
+- All workflow files in `.github/workflows/` 
