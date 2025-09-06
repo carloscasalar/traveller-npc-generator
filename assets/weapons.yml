@@ -1,0 +1,46 @@
+---
+- name: Autopistol
+  type: weapon
+  weapon_type: pistol
+  tech_level: 9
+  damage: 2d6
+  range_meters: 50
+  magazine_capacity: 15
+  ammo_type: 9mm
+  legality: Restricted
+  cost_credits: 300
+  tags:
+    - personal_defense
+    - common
+    - standard
+    - standard_access
+- name: Combat Rifle
+  type: weapon
+  weapon_type: rifle
+  tech_level: 10
+  damage: 3d6
+  range_meters: 400
+  magazine_capacity: 30
+  ammo_type: 7.62mm
+  legality: Military
+  cost_credits: 1200
+  tags:
+    - military
+    - assault
+    - high_quality
+    - preferred_access
+    - standard_access
+    - standard
+    - common
+- name: Survival Knife
+  type: weapon
+  weapon_type: blade
+  tech_level: 1
+  damage: 1d6+DM
+  legality: Legal
+  cost_credits: 50
+  tags:
+    - utility
+    - melee
+    - basic
+    - standard_access
