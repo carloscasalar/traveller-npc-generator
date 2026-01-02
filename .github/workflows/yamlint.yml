@@ -1,6 +1,10 @@
 ---
 name: Yaml Lint
 on: [push]  # yamllint disable-line rule:truthy
+
+permissions:
+  contents: read
+
 jobs:
   lintAllTheThings:
     runs-on: ubuntu-latest
