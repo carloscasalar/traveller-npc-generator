@@ -1,0 +1,7 @@
+---
+description: When creating files to store data instead of code
+globs: 
+alwaysApply: false
+---
+When creating data files, prefer yml over json. 
+Put them under assets folder with embed in place so the CLI binary can be distributed without having to distribute the yml files.

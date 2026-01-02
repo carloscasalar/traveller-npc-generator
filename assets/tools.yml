@@ -1,0 +1,55 @@
+---
+- name: Hand Computer
+  type: tool
+  tech_level: 9
+  cost_credits: 1000
+  legality: Legal
+  tags:
+    - information
+    - electronics
+    - common
+    - good
+    - standard_access
+- name: Medkit
+  type: tool
+  tech_level: 7
+  cost_credits: 300
+  legality: Legal
+  tags:
+    - medical
+    - first_aid
+    - common
+    - standard
+    - standard_access
+- name: Engineering Tool Kit
+  type: tool
+  tech_level: 8
+  cost_credits: 1500
+  legality: Legal
+  tags:
+    - engineering
+    - repair
+    - technician_role
+    - good
+    - preferred_access
+- name: Military Comms
+  type: tool
+  tech_level: 8
+  legality: Military
+  cost_credits: 500
+  tags:
+    - communication
+    - military
+    - high_quality
+    - standard_access
+    - marine
+- name: Personal Comms
+  type: tool
+  tech_level: 7
+  legality: Legal
+  cost_credits: 100
+  tags:
+    - communication
+    - standard
+    - common
+    - standard_access

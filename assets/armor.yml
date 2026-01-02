@@ -1,0 +1,37 @@
+---
+- name: Flak Jacket
+  type: armor
+  armor_value: 4
+  tech_level: 7
+  cost_credits: 400
+  legality: Legal
+  tags:
+    - personal_protection
+    - common
+    - standard
+    - standard_access
+- name: Combat Armor
+  type: armor
+  armor_value: 8
+  tech_level: 9
+  cost_credits: 5000
+  legality: Military
+  tags:
+    - military
+    - heavy_protection
+    - high_quality
+    - preferred_access
+    - standard_access
+    - standard
+    - common
+- name: Ablat Armor
+  type: armor
+  armor_value: 6
+  tech_level: 8
+  cost_credits: 2000
+  legality: Restricted
+  tags:
+    - starship_crew
+    - energy_weapon_defense
+    - good
+    - restricted_access
