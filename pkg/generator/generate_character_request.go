@@ -2,7 +2,7 @@ package generator
 
 import "errors"
 
-//go:generate gonstructor -type=GenerateCharacterRequest -constructorTypes=builder -output=generate_character_request_auto.go
+//go:generate go tool gonstructor -type=GenerateCharacterRequest -constructorTypes=builder -output=generate_character_request_auto.go
 
 type GenerateCharacterRequest struct {
 	citizenCategory CitizenCategory

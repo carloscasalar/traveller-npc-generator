@@ -2,7 +2,7 @@ package generator
 
 import "github.com/carloscasalar/traveller-npc-generator/internal/npc"
 
-//go:generate enumer -type=CitizenCategory -output=citizen_category_auto.go -trimprefix=CitizenCategory -transform=snake
+//go:generate go tool enumer -type=CitizenCategory -output=citizen_category_auto.go -trimprefix=CitizenCategory -transform=snake
 
 type CitizenCategory int
 

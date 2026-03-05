@@ -2,14 +2,15 @@ package ui
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/lipgloss/table"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
-	"strings"
 )
 
-//go:generate gonstructor -type=CharacterSheet -constructorTypes=builder -output=character_sheet_auto.go
+//go:generate go tool gonstructor -type=CharacterSheet -constructorTypes=builder -output=character_sheet_auto.go
 
 const (
 	headerIndex = -1
