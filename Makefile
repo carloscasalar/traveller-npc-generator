@@ -12,12 +12,6 @@ GO_BIN=$(shell which go)
 out:
 	mkdir -p out
 
-# Install the required tools for go generators
-install-tools:
-	@echo "Parsing tools.go and installing dependencies..."
-	@cd tools && go list -e -f '{{join .Imports " "}}' tools.go | xargs -t -n 1 $(GO_BIN) install
-	@echo "all tools installed"
-
 # Build the Go application
 build: out
 	@go build -o $(BINARY_NAME) $(MAIN_PACKAGE)

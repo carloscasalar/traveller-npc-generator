@@ -1,6 +1,6 @@
 package npc
 
-//go:generate enumer -type=Experience -output=experience_auto.go -trimprefix=Experience -transform=snake
+//go:generate go tool enumer -type=Experience -output=experience_auto.go -trimprefix=Experience -transform=snake
 type Experience int
 
 const (

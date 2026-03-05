@@ -1,6 +1,6 @@
 package generator
 
-//go:generate gonstructor -type=NpcGenerator -constructorTypes=builder -init=init -propagateInitFuncReturns -output=npc_generator_auto.go
+//go:generate go tool gonstructor -type=NpcGenerator -constructorTypes=builder -init=init -propagateInitFuncReturns -output=npc_generator_auto.go
 type NpcGenerator struct {
 	nameGenerator NameGenerator
 }

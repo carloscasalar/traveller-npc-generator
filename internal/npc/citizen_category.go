@@ -1,6 +1,6 @@
 package npc
 
-//go:generate enumer -type=CitizenCategory -output=citizen_category_auto.go -trimprefix=Category -transform=snake
+//go:generate go tool enumer -type=CitizenCategory -output=citizen_category_auto.go -trimprefix=Category -transform=snake
 type CitizenCategory int
 
 const (

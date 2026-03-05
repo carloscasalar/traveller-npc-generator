@@ -1,6 +1,6 @@
 package npc
 
-//go:generate enumer -type=Characteristic -output=characteristic_auto.go
+//go:generate go tool enumer -type=Characteristic -output=characteristic_auto.go
 type Characteristic int
 
 const (

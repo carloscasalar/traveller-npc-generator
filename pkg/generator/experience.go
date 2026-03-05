@@ -2,7 +2,7 @@ package generator
 
 import "github.com/carloscasalar/traveller-npc-generator/internal/npc"
 
-//go:generate enumer -type=Experience -output=experience_auto.go -trimprefix=Experience -transform=snake
+//go:generate go tool enumer -type=Experience -output=experience_auto.go -trimprefix=Experience -transform=snake
 type Experience int
 
 func (i Experience) toNpcExperience() npc.Experience {

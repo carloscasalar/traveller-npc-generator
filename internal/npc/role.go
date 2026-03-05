@@ -2,7 +2,7 @@ package npc
 
 import "math/rand"
 
-//go:generate enumer -type=Role -output=role_auto.go -trimprefix=Role -transform=snake
+//go:generate go tool enumer -type=Role -output=role_auto.go -trimprefix=Role -transform=snake
 type Role int
 
 const (

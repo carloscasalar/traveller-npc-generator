@@ -2,7 +2,7 @@ package generator
 
 import "github.com/carloscasalar/traveller-npc-generator/internal/npc"
 
-//go:generate enumer -type=Role -output=role_auto.go -trimprefix=Role -transform=snake
+//go:generate go tool enumer -type=Role -output=role_auto.go -trimprefix=Role -transform=snake
 type Role int
 
 func (i Role) toNpcRole() npc.Role {
