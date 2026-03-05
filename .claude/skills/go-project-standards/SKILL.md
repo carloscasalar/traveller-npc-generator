@@ -55,5 +55,5 @@ user-invocable: true
 - Summarize what changed by layer: `internal`, `pkg`, `cmd`, tests, docs.
 - Report the exact validation commands run and whether each passed.
 - Explicitly call out whether changelog and demo artifacts were updated or why they were not needed.
-- Ensure examples at the examples folder keeps working and modify them if needed.
+- Ensure examples in the `examples/` folder keep working, and update them if needed.
 - When adding new features, discuss if it will need a new example to showcase it.
