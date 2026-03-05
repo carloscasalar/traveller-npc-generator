@@ -50,7 +50,7 @@ user-invocable: true
 3. Regenerate demo artifacts when the project tracks executable demos (for example GIFs, tapes, snapshots, or recorded outputs).
 4. Ensure demo and changelog updates ship in the same change set as behavior updates.
 
-## Output Expectations For The Agent
+## Output expectations for the agent
 
 - Summarize what changed by layer: `internal`, `pkg`, `cmd`, tests, docs.
 - Report the exact validation commands run and whether each passed.
